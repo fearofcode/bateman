@@ -1,7 +1,9 @@
 package org.wkh.bateman;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 import static junit.framework.Assert.assertEquals;
 import junit.framework.TestCase;
@@ -24,11 +26,14 @@ public class GoogleQuoteFetcherTest extends TestCase {
 
     public void testParseQuotes() throws Exception {
         String samplePath = "src/main/resources/sample_response.txt";
+        
         Scanner scan = new Scanner(new File(samplePath));  
         scan.useDelimiter("\\Z");  
         String sampleResponse = scan.next(); 
         
-        List<Quote> quotes = GoogleQuoteFetcher.parseQuotes(sampleResponse, 60);
+        GoogleQuoteFetcher fetcher = new GoogleQuoteFetcher();
+        
+        List<Quote> quotes = fetcher.parseQuotes(sampleResponse, 60);
         
         Quote firstQuote = quotes.get(0);
         assertEquals(firstQuote.getOpen(), 444.05);

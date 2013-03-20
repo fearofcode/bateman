@@ -10,8 +10,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-public class GoogleQuoteFetcher {
-    public static String fetchQuotes(String symbol, int days, int interval) 
+public class GoogleQuoteFetcher implements QuoteFetcher {
+    @Override
+    public String fetchQuotes(String symbol, int days, int interval) 
             throws Exception {
         String url = "http://www.google.com/finance/getprices?i=" + interval + 
                 "&p=" + days + "d&f=d,o,h,l,c,v&df=cpct&q=" + symbol;
@@ -31,7 +32,8 @@ public class GoogleQuoteFetcher {
         return body;
     }
     
-    public static List<Quote> parseQuotes(String quoteList, int interval) {
+    @Override
+    public List<Quote> parseQuotes(String quoteList, int interval) {
         final int dropLines = 6;
         
         String[] lines = quoteList.split("\n");
