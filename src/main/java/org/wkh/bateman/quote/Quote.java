@@ -1,9 +1,9 @@
 package org.wkh.bateman.quote;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 public class Quote {
-    private Date openDate;
+    private DateTime openDate;
     private int interval;
     private double open;
     private double high;
@@ -11,7 +11,7 @@ public class Quote {
     private double close;
     private int volume;
     
-    public Quote(Date openDate, int interval, double open, double high, double low, double close, int volume) {
+    public Quote(DateTime openDate, int interval, double open, double high, double low, double close, int volume) {
         this.openDate = openDate;
         this.interval = interval;
         this.open = open;
@@ -26,7 +26,7 @@ public class Quote {
                 low + "/" + close + ", Volume = " + volume;
     }
     
-    public Date getOpenDate() {
+    public DateTime getOpenDate() {
         return openDate;
     }
 

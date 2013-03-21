@@ -1,11 +1,7 @@
 package org.wkh.bateman.quote;
 
-import org.wkh.bateman.quote.GoogleQuoteFetcher;
-import org.wkh.bateman.quote.Quote;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 import java.util.Scanner;
 import static junit.framework.Assert.assertEquals;
 import junit.framework.TestCase;
@@ -33,7 +29,7 @@ public class GoogleQuoteFetcherTest extends TestCase {
         assertEquals(firstQuote.getLow(), 443.8);
         assertEquals(firstQuote.getClose(), 443.8);
         assertEquals(firstQuote.getVolume(), 78179);
-        assertEquals(firstQuote.getOpenDate().getTime(), 1362061800000L);
+        assertEquals(firstQuote.getOpenDate().getMillis(), 1362061800000L);
         
         assertEquals(quotes.size(), 5873);
         

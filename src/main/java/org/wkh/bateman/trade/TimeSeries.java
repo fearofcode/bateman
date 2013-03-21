@@ -7,12 +7,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-/**
- * User: warrenhenning
- * Date: 8/31/12
- * Time: 12:54 AM
- */
-
 public class TimeSeries {
     private TreeMap<DateTime, BigDecimal> prices;
     private HashMap<IndicatorParameter, List<BigDecimal>> previousPriceCache;

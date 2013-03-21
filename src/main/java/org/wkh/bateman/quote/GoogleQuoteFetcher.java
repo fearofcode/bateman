@@ -2,13 +2,13 @@ package org.wkh.bateman.quote;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.joda.time.DateTime;
 
 public class GoogleQuoteFetcher implements QuoteFetcher {
     @Override
@@ -52,17 +52,15 @@ public class GoogleQuoteFetcher implements QuoteFetcher {
             
             String dateStr = parts[0];
             
-            Date date;
+            DateTime date;
             
             if(dateStr.startsWith("a")) {
                 final String intPart = dateStr.substring(1);
                 final int timestamp = Integer.parseInt(intPart);
-                date = new Date((long)timestamp*1000L);
+                date = new DateTime((long)timestamp*1000L);
             } else {
-                Date previousDate = quotes.get(quotes.size()-1).getOpenDate();
-                
-                date = new Date(previousDate.getTime() + 
-                        Integer.parseInt(dateStr) * interval * 1000L);
+                DateTime previousDate = quotes.get(quotes.size()-1).getOpenDate();
+                date = previousDate.plusSeconds(Integer.parseInt(dateStr) * interval);
             }
             
             Quote quote = new Quote(date, 
