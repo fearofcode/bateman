@@ -1,5 +1,7 @@
-package org.wkh.bateman;
+package org.wkh.bateman.quote;
 
+import org.wkh.bateman.quote.GoogleQuoteFetcher;
+import org.wkh.bateman.quote.Quote;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;

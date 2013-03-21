@@ -1,4 +1,4 @@
-package org.wkh.bateman;
+package org.wkh.bateman.quote;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -9,10 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SymbolCollectionFetcher {
-    private final static Logger logger = Logger.getLogger(SymbolCollectionFetcher.class .getName()); 
+    private static Logger logger = LoggerFactory.getLogger(SymbolCollectionFetcher.class.getName()); 
     
     public static Map<String, List<Quote>> fetchAllQuotes(QuoteFetcher fetcher) throws Exception {
         Map<String, List<Quote>> quotes = new HashMap<String, List<Quote>>();

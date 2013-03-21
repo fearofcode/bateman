@@ -1,4 +1,4 @@
-package org.wkh.bateman;
+package org.wkh.bateman.quote;
 
 import java.util.Date;
 
