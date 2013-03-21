@@ -23,7 +23,7 @@ public class TimeSeries {
         this.maxCache = new HashMap<IndicatorParameter, BigDecimal>();
         this.minCache = new HashMap<IndicatorParameter, BigDecimal>();
     }
-
+    
     public BigDecimal priceAt(DateTime date) {
         return prices.get(date);
     }

@@ -1,4 +1,4 @@
-package org.wkh.bateman.quote;
+package org.wkh.bateman.trade;
 
 import java.util.ArrayList;
 import java.util.Arrays;
