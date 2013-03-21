@@ -21,6 +21,7 @@ public class Quote {
         this.volume = volume;
     }
 
+    @Override
     public String toString() {
         return "Date = " + openDate + ", OHLC = " + open + "/" + high + "/" + 
                 low + "/" + close + ", Volume = " + volume;

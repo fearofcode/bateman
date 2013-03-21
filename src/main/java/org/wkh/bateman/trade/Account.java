@@ -3,8 +3,6 @@ package org.wkh.bateman.trade;
 import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.TreeMap;
 
 public class Account {
