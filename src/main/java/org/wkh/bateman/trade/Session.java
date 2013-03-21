@@ -48,7 +48,6 @@ public class Session {
         else if (trade.isOpen()) {
             BigDecimal purchasePrice = trade.getPurchasePrice();
             DateTime time = trade.getOpen().plusSeconds(1);
-            //System.out.println(this.hashCode() + ": Going to withdraw " + purchasePrice + " at " + time);
             account.withdraw(purchasePrice, time);
         }
     }

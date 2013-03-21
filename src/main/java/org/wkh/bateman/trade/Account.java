@@ -57,7 +57,6 @@ public class Account {
     }
 
     public void withdraw(BigDecimal amount, DateTime time) throws Exception {
-        //System.out.println("Withdrawing " + amount + " at time " + time);
         lose(amount, time);
     }
 }

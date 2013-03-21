@@ -35,7 +35,6 @@ public abstract class Rule {
             boolean doBuy = buy(time);
             boolean doSell = sell(time);
             if (doBuy || doSell) {
-                //System.out.println(this.hashCode() + ": Signal at " + time);
                 if (!processSignal(session, time, doBuy, end)) break;
             }
         }

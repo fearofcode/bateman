@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-public class FixedPercentageAllocationStrategy extends MoneyManagementStrategy {
+public class FixedPercentageAllocationStrategy implements MoneyManagementStrategy {
     private BigDecimal ratio;
     private Asset asset;
     private final MathContext mc = new MathContext(10, RoundingMode.DOWN);
@@ -27,12 +27,6 @@ public class FixedPercentageAllocationStrategy extends MoneyManagementStrategy {
         BigDecimal allocated = account.getCurrentAmount().multiply(ratio);
         BigDecimal shares = allocated.divide(price, 2, RoundingMode.HALF_UP);
         int i = shares.round(mc).intValue();
-
-        if(i < 0) {
-            // TODO change this
-            System.out.println("Overflow occurred, fix this");
-            return 10000;
-        }
 
         return i;
     }
