@@ -24,9 +24,9 @@ public class BuyZoneModelTest extends TestCase {
     MoneyManagementStrategy moneyManager;
     Session session;
     
-    BigDecimal buyTrigger;
-    BigDecimal sellTrigger;
-    BigDecimal stopLoss;
+    double buyTrigger;
+    double sellTrigger;
+    double stopLoss;
     
     BuyZoneModel instance;
     
@@ -53,9 +53,9 @@ public class BuyZoneModelTest extends TestCase {
         moneyManager = new FixedPercentageAllocationStrategy(0.2, asset);
         session = new Session(account, conditions);
 
-        buyTrigger = new BigDecimal(0.4);
-        sellTrigger = new BigDecimal(1.0);
-        stopLoss = new BigDecimal(0.25);
+        buyTrigger = 0.4;
+        sellTrigger = 1.0;
+        stopLoss = 0.25;
         
         instance = new BuyZoneModel(account, asset, conditions, 
                 moneyManager, buyTrigger, sellTrigger, stopLoss);

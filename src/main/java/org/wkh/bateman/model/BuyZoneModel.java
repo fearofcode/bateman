@@ -27,14 +27,14 @@ public class BuyZoneModel extends Rule {
     private BigDecimal sellTrigger;
     
     public BuyZoneModel(Account account, Asset asset, Conditions conditions, 
-            MoneyManagementStrategy moneyManager, BigDecimal buyTrigger, 
-            BigDecimal sellTrigger, BigDecimal stopLoss) {
+            MoneyManagementStrategy moneyManager, double buyTrigger, 
+            double sellTrigger, double stopLoss) {
         super(account, asset, conditions, moneyManager);
     
         this.asset = asset;
-        this.buyTrigger = buyTrigger;
-        this.sellTrigger = sellTrigger;
-        this.stopLoss = stopLoss;
+        this.buyTrigger = new BigDecimal(buyTrigger);
+        this.sellTrigger = new BigDecimal(sellTrigger);
+        this.stopLoss = new BigDecimal(stopLoss);
     }
 
     @Override
