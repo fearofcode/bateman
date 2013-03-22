@@ -14,6 +14,7 @@ public class GoogleQuoteFetcher implements QuoteFetcher {
     @Override
     public String fetchQuotes(String symbol, int days, int interval) 
             throws Exception {
+        
         String url = "http://www.google.com/finance/getprices?i=" + interval + 
                 "&p=" + days + "d&f=d,o,h,l,c,v&df=cpct&q=" + symbol;
         

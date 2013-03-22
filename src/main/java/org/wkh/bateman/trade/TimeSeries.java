@@ -4,7 +4,6 @@ import org.wkh.bateman.trade.util.IndicatorParameter;
 import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 
 public class TimeSeries {
@@ -30,6 +29,12 @@ public class TimeSeries {
         return previousPrices.firstEntry().getValue();
     }
     
+    public BigDecimal closeOnDay(DateTime date) {
+        DateTime midnight = date.toDateMidnight().toDateTime();
+        DateTime nextDay = midnight.plusDays(1);
+        return prices.floorEntry(nextDay).getValue();
+    }
+    
     public BigDecimal priceAt(DateTime date) {
         return prices.get(date);
     }
@@ -52,6 +57,14 @@ public class TimeSeries {
 
     public TreeMap<DateTime, BigDecimal> getPrices() {
         return prices;
+    }
+
+    void removeDays(int i) {
+        DateTime first = beginningOfSeries();
+        DateTime midnight = first.toDateMidnight().toDateTime();
+        DateTime cutoff = midnight.plusDays(i);
+        
+        prices = new TreeMap<DateTime, BigDecimal>(prices.tailMap(cutoff));
     }
 
 }

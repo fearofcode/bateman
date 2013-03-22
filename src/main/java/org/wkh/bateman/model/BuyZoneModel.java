@@ -53,6 +53,7 @@ public class BuyZoneModel extends Rule {
         BigDecimal current = asset.getTimeSeries().priceAt(time);
         BigDecimal difference = current.subtract(buyPrice);
         
+        // TODO exit if at end of day
         boolean inMarket = session.inMarket(time);
         boolean thresholdReached = difference.compareTo(sellTrigger) > 0;
         

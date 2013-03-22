@@ -43,6 +43,21 @@ public class TimeSeriesTest extends TestCase {
         assertEquals(series.openOnDay(oneMinuteLater), new BigDecimal(9.0));
         assertEquals(series.openOnDay(yesterday), new BigDecimal(11.0));
     }
+    
+    public void testClose() {
+        
+        assertEquals(series.closeOnDay(today), new BigDecimal(9.0));
+        
+        DateTime oneMinuteLater = today.plusMinutes(1);
+        prices.put(oneMinuteLater, new BigDecimal(9.1));
+        
+        assertEquals(series.closeOnDay(today), new BigDecimal(9.1));
+    }
+    
+    public void testRemove() {
+        series.removeDays(1);
+        assertEquals(series.beginningOfSeries(), yesterday);
+    }
     public void testPriceQuerying() throws Exception {
         assertEquals(new BigDecimal(11), series.priceAt(yesterday));
     }
