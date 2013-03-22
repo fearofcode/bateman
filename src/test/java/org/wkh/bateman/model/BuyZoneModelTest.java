@@ -61,11 +61,6 @@ public class BuyZoneModelTest extends TestCase {
                 moneyManager, buyTrigger, sellTrigger, stopLoss);
     }
     
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testBuy() throws Exception {
         assertEquals(instance.buy(today, session), false);
         assertEquals(instance.buy(today.plusMinutes(1), session), true);
@@ -73,6 +68,7 @@ public class BuyZoneModelTest extends TestCase {
         assertEquals(instance.buy(today.plusMinutes(2), session), true);
         session.addTrade(new Trade(asset, today.plusMinutes(1)));
         assertEquals(instance.buy(today.plusMinutes(2), session), false);
+        
     }
 
     public void testSell() throws Exception {
@@ -81,6 +77,15 @@ public class BuyZoneModelTest extends TestCase {
         session.addTrade(new Trade(asset, today.plusMinutes(1)));
         
         assertEquals(instance.sell(today.plusMinutes(2), session), false);
+        assertEquals(instance.sell(today.plusMinutes(3), session), true);
+    }
+    
+    public void testEndOfDaySell() throws Exception {
+        sellTrigger = 1337.0;
+        instance = new BuyZoneModel(account, asset, conditions, 
+                moneyManager, buyTrigger, sellTrigger, stopLoss);
+        
+        session.addTrade(new Trade(asset, today.plusMinutes(1)));
         assertEquals(instance.sell(today.plusMinutes(3), session), true);
     }
 }

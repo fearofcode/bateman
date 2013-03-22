@@ -29,10 +29,10 @@ public class TimeSeries {
         return previousPrices.firstEntry().getValue();
     }
     
-    public BigDecimal closeOnDay(DateTime date) {
+    public DateTime closeOnDay(DateTime date) {
         DateTime midnight = date.toDateMidnight().toDateTime();
         DateTime nextDay = midnight.plusDays(1);
-        return prices.floorEntry(nextDay).getValue();
+        return prices.floorEntry(nextDay).getKey();
     }
     
     public BigDecimal priceAt(DateTime date) {

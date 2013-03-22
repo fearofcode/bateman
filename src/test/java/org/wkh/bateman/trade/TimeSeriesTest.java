@@ -46,12 +46,12 @@ public class TimeSeriesTest extends TestCase {
     
     public void testClose() {
         
-        assertEquals(series.closeOnDay(today), new BigDecimal(9.0));
+        assertEquals(series.closeOnDay(today), today);
         
         DateTime oneMinuteLater = today.plusMinutes(1);
         prices.put(oneMinuteLater, new BigDecimal(9.1));
         
-        assertEquals(series.closeOnDay(today), new BigDecimal(9.1));
+        assertEquals(series.closeOnDay(today), oneMinuteLater);
     }
     
     public void testRemove() {
