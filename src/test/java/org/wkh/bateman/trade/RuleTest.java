@@ -91,14 +91,14 @@ public class RuleTest extends TestCase {
         }
 
         @Override
-        public boolean buy(DateTime time) {
+        public boolean buy(DateTime time, Session session) {
             int daysSinceSessionStart = new Period(asset.getTimeSeries().beginningOfSeries(), time).getDays();
             return daysSinceSessionStart % 2 == 0;
         }
 
         @Override
-        public boolean sell(DateTime time) {
-            return !buy(time);
+        public boolean sell(DateTime time, Session session) {
+            return !buy(time, session);
         }
     }
 
@@ -108,12 +108,12 @@ public class RuleTest extends TestCase {
         }
 
         @Override
-        public boolean buy(DateTime time) {
+        public boolean buy(DateTime time, Session session) {
             return true;
         }
 
         @Override
-        public boolean sell(DateTime time) {
+        public boolean sell(DateTime time, Session session) {
             return false;
         }
     }
@@ -124,12 +124,12 @@ public class RuleTest extends TestCase {
         }
 
         @Override
-        public boolean buy(DateTime time) {
+        public boolean buy(DateTime time, Session session) {
             return false;
         }
 
         @Override
-        public boolean sell(DateTime time) {
+        public boolean sell(DateTime time, Session session) {
             return false;
         }
     }
@@ -140,12 +140,12 @@ public class RuleTest extends TestCase {
         }
 
         @Override
-        public boolean buy(DateTime time) {
+        public boolean buy(DateTime time, Session session) {
             return false;
         }
 
         @Override
-        public boolean sell(DateTime time) {
+        public boolean sell(DateTime time, Session session) {
             return true;
         }
     }

@@ -24,6 +24,12 @@ public class TimeSeries {
         this.minCache = new HashMap<IndicatorParameter, BigDecimal>();
     }
     
+    public BigDecimal openOnDay(DateTime date) {
+        DateTime midnight = date.toDateMidnight().toDateTime();
+        NavigableMap<DateTime, BigDecimal> previousPrices = prices.subMap(midnight, true, date, true);
+        return previousPrices.firstEntry().getValue();
+    }
+    
     public BigDecimal priceAt(DateTime date) {
         return prices.get(date);
     }

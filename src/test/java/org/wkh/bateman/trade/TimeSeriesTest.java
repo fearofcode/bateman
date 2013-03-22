@@ -35,6 +35,14 @@ public class TimeSeriesTest extends TestCase {
         series = new TimeSeries(prices);
     }
 
+    public void testOpen() {
+        DateTime oneMinuteLater = today.plusMinutes(1);
+        prices.put(oneMinuteLater, new BigDecimal(9.1));
+        
+        assertEquals(series.openOnDay(today), new BigDecimal(9.0));
+        assertEquals(series.openOnDay(oneMinuteLater), new BigDecimal(9.0));
+        assertEquals(series.openOnDay(yesterday), new BigDecimal(11.0));
+    }
     public void testPriceQuerying() throws Exception {
         assertEquals(new BigDecimal(11), series.priceAt(yesterday));
     }

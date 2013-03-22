@@ -5,11 +5,7 @@ import org.joda.time.Interval;
 
 import java.math.BigDecimal;
 
-/**
- * User: warrenhenning
- * Date: 8/31/12
- * Time: 12:50 AM
- */
+// TODO this doesn't support stop losses
 
 public class Trade {
     private Asset asset;
@@ -108,6 +104,8 @@ public class Trade {
         return asset.priceAt(close);
     }
 
+    // TODO this doesn't account for borrowing costs/interest when shorting
+    
     public BigDecimal profit() throws Exception {
         if (isOpen())
             throw new Exception("Can't calculate profit/loss of an open trade");

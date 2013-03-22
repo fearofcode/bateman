@@ -19,9 +19,9 @@ public abstract class Rule {
         this.moneyManager = moneyManager;
     }
 
-    public abstract boolean buy(DateTime time);
+    public abstract boolean buy(DateTime time, Session session);
 
-    public abstract boolean sell(DateTime time);
+    public abstract boolean sell(DateTime time, Session session);
 
     public synchronized Session generateSignals(DateTime start, DateTime end) throws Exception {
         Session session = new Session(account, conditions);
@@ -32,8 +32,8 @@ public abstract class Rule {
         for (Map.Entry<DateTime, BigDecimal> kv : slice.entrySet()) {
             DateTime time = kv.getKey();
 
-            boolean doBuy = buy(time);
-            boolean doSell = sell(time);
+            boolean doBuy = buy(time, session);
+            boolean doSell = sell(time, session);
             if (doBuy || doSell) {
                 if (!processSignal(session, time, doBuy, end)) break;
             }
@@ -56,7 +56,7 @@ public abstract class Rule {
         if (session.inMarket(time)) {
             Trade lastTrade = session.lastTrade();
 
-            boolean sell = sell(time);
+            boolean sell = sell(time, session);
 
             if ((sell && lastTrade.getType() == TradeType.LONG) || (buy && lastTrade.getType() == TradeType.SHORT)) {
                 session.closeLastTrade(time);
