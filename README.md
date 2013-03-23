@@ -73,17 +73,17 @@ What is the idea behind the trading system?
 
 As mentioned above, Bateman tries to buy a stock slightly above its open and below or near its daily high. Rather than trying to build a forecasting model, Bateman is intended for use with stocks that have a frequent high positive difference between daily high and open share price, so that regardless of what happens by the end of the day, at some point it will likely exhibit behavior that can be profitably exploited.
 
-To find what the values of these constants should be for a given stock, it downloads recent data for that stock and tries to find the numbers for each that would be most profitable for that data. To compute this, it takes a given possible candidate set of constants and [backtests](http://en.wikipedia.org/wiki/Backtesting) them, simulating trading using the historical data it acquires. As it's an optimization algorithm, it gravitates towards more profitable constants. 
+To find what the values of these constants should be for a given stock, it downloads recent data for that stock and tries to find the specific numbers that would be most profitable for that data. To compute this, it takes a given possible candidate set of constants and [backtests](http://en.wikipedia.org/wiki/Backtesting) them, simulating trading using the historical data it acquires. As it's an optimization algorithm, it gravitates towards more profitable constants. 
 
 It will only do one trade at a time, long-only. It currently keeps trades fixed-size, and otherwise keeps things pretty simple.
 
 There are three fixed numerical parameters Bateman tries to optimize when it runs: the "buy trigger", the "sell trigger", and a stop loss.
 
-The "buy trigger" is the amount above the open price for the day that it will buy at. So if the stock opens at 100 and the buy trigger is taken to be 0.5, any price above 100.5 will be acted upon.
+1. The "*buy trigger*" is the amount above the open price for the day that it will buy at. So if the stock opens at 100 and the buy trigger is taken to be 0.5, any price above 100.5 will be acted upon.
+2. The "*sell trigger*" is the amount above the price shares were purchased at to sell. If the sell trigger is not met by the end of the day, the shares are sold so that no positions are carried overnight.
+3. The *stop loss* is used in the normal sense as a [risk management](http://www.investopedia.com/articles/trading/09/risk-management.asp) procedure to cut losses.
 
-The "sell trigger" is the amount above the price shares were purchased at to sell. If the sell trigger is not met by the end of the day, the shares are sold so that no positions are carried overnight.
-
-The stop loss is used in the normal sense as a [risk management](http://www.investopedia.com/articles/trading/09/risk-management.asp) procedure to cut losses.
+These three components -- buy trigger, sell trigger, stop loss -- are the numbers Bateman optimizes for, using data retrieved from Google to create a simulation of trading that data as if it were live.
 
 So what does it actually give back to you?
 ------------------------------------------
