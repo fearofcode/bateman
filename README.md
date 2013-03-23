@@ -83,7 +83,7 @@ There are three fixed numerical parameters Bateman tries to optimize when it run
 2. The "*sell trigger*" is the amount above the price shares were purchased at to sell. If the sell trigger is not met by the end of the day, the shares are sold so that no positions are carried overnight.
 3. The *stop loss* is used in the normal sense as a [risk management](http://www.investopedia.com/articles/trading/09/risk-management.asp) procedure to cut losses.
 
-These three components -- buy trigger, sell trigger, stop loss -- are the numbers Bateman optimizes for, using data retrieved from Google to create a simulation of trading that data as if it were live.
+These three components -- buy trigger, sell trigger, stop loss -- are the numbers Bateman optimizes for, using data retrieved from Google to create a simulation of trading that data as if it were live. The results of the trade simulation are the particle swarm algorithm's *objective function*; every time it wants to find out how good a set of candidate parameters are, it runs a full simulation with those and gets back a number that lets it quantitatively compare different solutions so that it can find better solutions. The simulation of trading is what is used to drive the optimization process.
 
 So what does it actually give back to you?
 ------------------------------------------
