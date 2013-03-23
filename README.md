@@ -1,7 +1,7 @@
 Bateman
 -------
 
-Bateman is an in-progress trading system meant to screen a subset of the US equities markets and tests out how well a simple long-only trading strategy will work.
+Bateman is an in-progress trading system meant to screen a subset of the US equities markets and tests out how well a simple long-only trading strategy described below will work.
 
 It's based off the observation that many symbols display sufficient daily volatility that their high will generally be significantly above their open, regardless of their price at the close of trading.
 
@@ -25,15 +25,19 @@ I haven't risked any money on this. It produces profitable simulated results on 
 
 This is Open Source software, which basically means I owe you nothing and this software doesn't necessarily work. Please read the LICENSE file carefully. It's not my fault if on the off chance you use this and lose money! You have no recourse against me. Again, refer to [the license](https://github.com/fearofcode/bateman/blob/master/LICENSE).
 
-Why are you doing this? How can you write a program to pick stock trades?
+Why are you doing this?  How can you write a program to pick stock trades?
 -------------------------------------------------------------------------
 
-I'd like to discuss the idea of relying on a computer to place trades here. A program like Bateman falls under the category of "algorithmic trading", which 
+I'm doing this for fun, nothing more. I'm not selling anything or expecting to make money off this. I'm giving it away because I think the idea of it is more interesting than the practical reality of it as a money-making tool. I don't have the capital to trade it, and it's common even for seemingly foolproof trading systems to not do well under actual circumstances compared to their simulated performance.
+
+I'd like to discuss the idea of relying on a computer to place trades now. A program like Bateman falls under the category of "algorithmic trading", which 
 has been practiced by hedge funds and Wall Street firms for quite a while now. See [Wikipedia's page on algorithmic trading](http://en.wikipedia.org/wiki/Algorithmic_trading) for more information.
 
-Note that "algorithmic trading" should be distinguished from "high-frequency trading", which is what has become the real focus of the quants and hedge fund rocket scientists nowadays. Bateman is not a high-frequency trading app; in fact, it simulates placing trades only once a day. Compared to the crazy shit Wall Street is doing now, Bateman is, I would think, old hat. 
+Note that "algorithmic trading" should be distinguished from ["high-frequency trading"](http://en.wikipedia.org/wiki/High-frequency_trading), which is what has become the real focus of the quants and hedge fund rocket scientists nowadays. Bateman is not a high-frequency trading app; in fact, it simulates placing trades only once a day. Compared to the crazy shit Wall Street is doing now, Bateman is, I would think, old hat. From what I know, Wall Street has shifted its focus from discretionary proprietary trading to market-making, statistical arbitrage, and high-frequency trading operations. We're living in a crazy world, and depending on who you ask, [high-frequency trading definitely has its dark side](http://www.zerohedge.com/news/2012-12-15/high-frequency-trading-broken-market-primer-two-parts). I have nothing to do with that.
 
-Additionally, Bateman isn't really a fully algorithmic trading app, since it doesn't actually place trades itself; it just tries to find numbers that would allow a human trader to trade successfully. So it enables "systematic trading", where a program emits outputs that suggest a rigid, objective course of action that the human trader is then supposed to follow. Many people are unable to follow through with this and generally lose money as a result.
+I'll also emphasize again that I'm not a trader and, while I am a professional programmer, I've never worked professionally on the infrastructure that powers the new HFT systems.
+
+Additionally, Bateman isn't really a fully algorithmic trading app, since it doesn't actually place trades itself; it just tries to find numbers that would allow a human trader to trade successfully. So it enables "systematic trading", where a program emits outputs that suggest a rigid, objective course of action that the human trader is then supposed to follow. Many people are unable to follow through with this and generally lose money as a result. So, Bateman has nothing for talking to brokers or actually making trades itself. If you wanted to use the results of a program like this, you'd have to do that by hand.
 
 Further in the past, all trading would be done in a discretionary fashion, with analysts or traders trying to combine macroeconomic information (["fundamental analysis"](http://en.wikipedia.org/wiki/Fundamental_analysis); think Warren Buffet) with [technical analysis](http://en.wikipedia.org/wiki/Technical_analysis)/charting (think voodoo snake oil bullshit, in my opinion) to figure out how to trade. It's generally agreed that due to the psychological factors involved in trading, humans are less skilled at executing trades than pre-configured trading systems. This is due to factors like second-guessing, over-thinking, being indecisive or changing one's mind, etc.,, almost always to one's own detriment.
  
