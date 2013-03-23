@@ -1,6 +1,8 @@
 Bateman
 -------
 
+![Everything failed to subdue me. Soon everything seemed dull: another sunrise, the lives of heroes, falling in love, war, the discoveries people made about each other.](http://media.tumblr.com/tumblr_lmvx4uwp0h1qeqv7k.gif)
+
 Bateman is an in-progress trading system meant to screen a subset of the US equities markets and tests out how well a simple long-only trading strategy described below will work.
 
 It's based off the observation that many symbols display sufficient daily volatility that their high will generally be significantly above their open, regardless of their price at the close of trading.
