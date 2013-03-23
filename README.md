@@ -136,6 +136,9 @@ When you run this, a sequence of events will occur:
 * Print the parameters it comes up with and run a final simulation with these
 * Write out a simulated trading log with profit-and-loss calculations for each simulated trade to a CSV file you can review with any spreadsheet program
 
+A sample run
+------------
+
 When you run this, most of the outcome will be the progress of the particle swarm optimizer. Some sample output follows:
 
     01:36:12.597 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Particle swarm initialized
@@ -180,13 +183,13 @@ So, what does the trade log above mean? How did we do overall? Well, let's have 
 Let's talk for a second about this strategy compared to buy and hold. Someone who buys shares and holds on to them will profit more than an [active trading](http://www.investopedia.com/active-trading/) strategy like what Bateman suggests, yes; and we will rack up lots of expenses from commissions that eat into our profits. But our trading strategy can also give us much more consistent profits on a day-to-day basis than buy-and-hold, even though buy-and-hold will outperform this strategy in the long term for some stocks.
 
 What's coming next?
-===================
+-------------------
 
 I'd like to make the program more configurable and more easy to understand.
 
 I'm planning to have nice, automated plotting of the trading log along with the data trained against with [R](http://www.r-project.org/) and [ggplot2](http://ggplot2.org/) in order to better visualize the simulated trades soon, but for now using existing facilities in Excel or R ad-hoc suffice.
 
 Thank you
-=========
+---------
 
 Hopefully this long-winded README was helpful in understanding what this program does. [Email me](warren.henning@gmail.com) if you have any questions or want to hire me! :)
