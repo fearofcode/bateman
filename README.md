@@ -100,8 +100,8 @@ How to run it
 
 You will need the following software to run this:
 
-    * JDK version 1.7 (note the version -- it uses some 1.7-specific I/O libraries)
-    * Maven 3
+* JDK version 1.7 (note the version -- it uses some 1.7-specific I/O libraries)
+* Maven 3
 
 Then you'll want to start by cloning the repo:
 
@@ -122,10 +122,10 @@ This will then run the actual optimizer. Currently it is hardcoded to work on Ap
 
 When you run this, a sequence of events will occur:
 
-    * Download recent intraday quotes for the symbol in question (AAPL) from Google Finance
-    * Run a particle swarm optimization to find the best triggers and stop loss
-    * Print the parameters it comes up with and run a final simulation with these
-    * Write out a simulated trading log with profit-and-loss calculations for each simulated trade to a CSV file you can review with any spreadsheet program
+* Download recent intraday quotes for the symbol in question (AAPL) from Google Finance
+* Run a particle swarm optimization to find the best triggers and stop loss
+* Print the parameters it comes up with and run a final simulation with these
+* Write out a simulated trading log with profit-and-loss calculations for each simulated trade to a CSV file you can review with any spreadsheet program
 
 When you run this, most of the outcome will be the progress of the particle swarm optimizer. Some sample output follows:
 
@@ -158,13 +158,13 @@ What you're seeing is basically a canned demo of running the optimization proces
 
 Each line corresponds to a simulated trade. The meaning of the columns are as follows:
 
-    * Open and Close are the dates the trade was started and finished, respectively
-    * OpenPrice and ClosePrice are the prices of the stock at the open and close dates
-    * Type is the type of the trade. Currently this will always be "LONG" as Bateman is long-only.
-    * Size is the number of shares purchased.
-    * OutlayCost is the total cost of purchasing all the shares.
-    * Profit is the amount of profit made on each trade after accounting for slippage and commissions. Losses will appear as negative profit.
-    * Balance is the simulated account balance at the end of the trade on that line; the balance column constitutes an "equity curve".
+* Open and Close are the dates the trade was started and finished, respectively
+* OpenPrice and ClosePrice are the prices of the stock at the open and close dates
+* Type is the type of the trade. Currently this will always be "LONG" as Bateman is long-only.
+* Size is the number of shares purchased.
+* OutlayCost is the total cost of purchasing all the shares.
+* Profit is the amount of profit made on each trade after accounting for slippage and commissions. Losses will appear as negative profit.
+* Balance is the simulated account balance at the end of the trade on that line; the balance column constitutes an "equity curve".
 
 I'm planning to have nice, automated plotting of the trading log along with the data trained against with [R](http://www.r-project.org/) and [ggplot2](http://ggplot2.org/) in order to better visualize the simulated trades soon, but for now using existing facilities in Excel or R ad-hoc suffice.
 
