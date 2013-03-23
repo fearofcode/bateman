@@ -109,8 +109,8 @@ How to run it
 
 You will need the following software to run this:
 
-* JDK version 1.7 (note the version -- it uses some 1.7-specific I/O libraries)
-* Maven 3
+* [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) version 1.7 (note the version -- it uses some 1.7-specific I/O libraries)
+* [Maven](http://maven.apache.org/) 3
 
 Then you'll want to start by cloning the repo:
 
