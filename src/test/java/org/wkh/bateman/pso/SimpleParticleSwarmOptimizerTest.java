@@ -15,8 +15,8 @@ public class SimpleParticleSwarmOptimizerTest extends TestCase {
             }
         };
         
-        SimpleParticleSwarmOptimizer pso = new SimpleParticleSwarmOptimizer(fitness, new double[] {-5.0}, new double[] {5.0}, 500);
+        SimpleParticleSwarmOptimizer pso = new SimpleParticleSwarmOptimizer(fitness, new double[] {-5.0}, new double[] {5.0}, 50);
         
-        assertEquals(fitness.evaluate(pso.learn()), 0.0, 0.001);
+        assertEquals(fitness.evaluate(pso.learn()), 0.0, 0.01);
     }
 }

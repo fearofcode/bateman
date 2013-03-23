@@ -124,16 +124,4 @@ public class SessionTest extends TradeTest {
     public void testComputingSharpeRatio() throws Exception {
         assertEquals(-0.198, session.sharpeRatio(), 0.0001);
     }
-
-    public void testDumpingTradesAndReturns() throws Exception {
-        try {
-            File temp = File.createTempFile("pattern", ".suffix");
-            temp.deleteOnExit();
-
-            String directory = temp.getParent();
-
-            session.dumpTo(directory, 1);
-        } catch (IOException e) {
-        }
-    }
 }
