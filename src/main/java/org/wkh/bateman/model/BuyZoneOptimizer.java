@@ -74,13 +74,13 @@ public class BuyZoneOptimizer {
     public static void main(String[] args) throws Exception {
         
         int days = 30;
-        String symbol = "AAPL";
+        String symbol = "ATVI";
         final double commission = 10.0; // $10.00 a trade
         final double slippage = 1.0E-4; // 0.01% mean slippage
         final int initialBalance = 100000; // $100,000 to start with
         final double accountAllocation = 0.75; // risk 75% of capital
-        final double maxPercentage = 0.01; // restrict parameters to 1.5% of the opening price on first day's data
-        final int generations = 25; // generations to train for
+        final double maxPercentage = 0.0075; // restrict parameters to 0.75% of the opening price on first day's data
+        final int generations = 100; // generations to train for
         
         DateTime today = DateTime.now();
 

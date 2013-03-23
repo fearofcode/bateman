@@ -1,5 +1,7 @@
 package org.wkh.bateman.model;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import java.math.BigDecimal;
 import org.joda.time.DateTime;
 import org.wkh.bateman.trade.Account;
@@ -8,6 +10,7 @@ import org.wkh.bateman.trade.Conditions;
 import org.wkh.bateman.trade.MoneyManagementStrategy;
 import org.wkh.bateman.trade.Rule;
 import org.wkh.bateman.trade.Session;
+import org.wkh.bateman.trade.Trade;
 
 /* 
  * Here's the idea for this project: lots of stocks, if they go open by a small amount, will go 
@@ -39,11 +42,24 @@ public class BuyZoneModel extends Rule {
 
     @Override
     public boolean buy(DateTime time, Session session) {
+        if(session.inMarket(time))
+            return false;
+        
         BigDecimal open = asset.getTimeSeries().openOnDay(time);
         BigDecimal current = asset.priceAt(time);
         BigDecimal increase = current.subtract(open);
         
-        return !session.inMarket(time) && increase.compareTo(buyTrigger) > 0;
+        final DateTime midnight = time.toDateMidnight().toDateTime();
+        final DateTime nextDay = midnight.plusDays(1);
+        
+        boolean tradedToday = (Collections2.filter(session.getTrades(), new Predicate<Trade>() {
+            @Override
+            public boolean apply(Trade trade) {
+                return trade.getOpen().compareTo(midnight) > 0 && trade.getClose().compareTo(nextDay) < 0;
+            }
+        })).size() > 0;
+        
+        return !tradedToday && increase.compareTo(buyTrigger) >= 0;
     }
 
     @Override
