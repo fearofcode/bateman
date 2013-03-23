@@ -45,7 +45,7 @@ Prior to the rise of ubiquitous high-performance computers, trading was done in 
 
 If you haven't ever tried to trade and haven't experienced this psychological aspect, I suggest getting a [free paper trading account](http://www.oanda.com/) that lets you do simulated trading without actually giving anyone any financial information or money and actually trying it for yourself. If you're like most people, you'll have a hard time waiting for the results of a trade to play out and want to basically dick around. Paper trading has a certain stress to it, even when no real money is changing hands -- now imagine if it was cash you had busted your ass to save and you were going to try to live the dream and "trade for a living". Most people fail, badly.
  
-Hence, traders  look for rigorous, quantitative "trading systems" that enable "systematic trading" if used and followed properly. Not to worry, instructions for working with Bateman are included below.
+Hence, to alleviate the unreliability and anxiety associated with discretionary trading, traders look for rigorous, quantitative "trading systems" that enable "systematic trading" if used and followed properly. Not to worry, instructions for working with Bateman are included below.
 
 Any time you build a system with parameters that get "learned" or "optimized" with some kind of underlying assumption behind it, you're basically building a statistical model. Other financial models often have much stronger assumptions, such as a normal distribution of returns or [mean reversion](http://en.wikipedia.org/wiki/Mean_reversion_(finance).
 
@@ -77,8 +77,6 @@ As mentioned above, Bateman tries to buy a stock slightly above its open and bel
 
 To find what the values of these constants should be for a given stock, it downloads recent data for that stock and tries to find the specific numbers that would be most profitable for that data. To compute this, it takes a given possible candidate set of constants and [backtests](http://en.wikipedia.org/wiki/Backtesting) them, simulating trading using the historical data it acquires. As it's an optimization algorithm, it gravitates towards more profitable constants. 
 
-It will only do one trade at a time, long-only. It currently keeps trades fixed-size, and otherwise keeps things pretty simple.
-
 There are three fixed numerical parameters Bateman tries to optimize when it runs: the "buy trigger", the "sell trigger", and a stop loss.
 
 1. The "*buy trigger*" is the amount above the open price for the day that it will buy at. So if the stock opens at 100 and the buy trigger is taken to be 0.5, any price above 100.5 will be acted upon.
@@ -100,7 +98,7 @@ Notice how this is systematic, quantitative, and could be automatically executed
 
 How many shares do we buy? The model I use is to just take a fixed percentage of our capital and buy as many shares as we can buy on that. Currently I'm using 75% of available capital in the executable example described below, which I think would be considered pretty high, but Bateman is long-only and sets fairly tight stop losses. So I think the choice is reasonable.
 
-Currently, it does backtesting with a simulated starting amount of US$100,000 and what should be reasonable assumptions about trading costs: US$10 commissions one way for trading, slippage of 0.01%. These aren't currently user-configurable. It simulates placing a (long-only) [market order](http://www.investopedia.com/terms/m/marketorder.asp) (as opposed to a [limit order](http://www.investopedia.com/terms/l/limitorder.asp)) that it assumes it pretty much gets right where it buys at -- it assumes orders are placed fast enough to be considered immediate for the purposes of a simulation, at a price with small enough slippage to be quite small. It also assumes the spread between the bid and ask is small enough to be reasonably accounted for with the commissions and slippage calculation that is applied to every trade. Currently, trailing stop losses are not supported. It will also only trade once a day.
+Currently, it does backtesting with a simulated starting amount of US$100,000 and what should be reasonable assumptions about trading costs: US$10 commissions one way for trading, slippage of 0.01%. These aren't currently user-configurable. It simulates placing a (long-only) [market order](http://www.investopedia.com/terms/m/marketorder.asp) (as opposed to a [limit order](http://www.investopedia.com/terms/l/limitorder.asp)) that it assumes it pretty much gets right where it buys at -- it assumes orders are placed fast enough to be considered immediate for the purposes of a simulation, at a price with small enough slippage to be quite small. It also assumes the spread between the bid and ask is small enough to be reasonably accounted for with the commissions and slippage calculation that is applied to every trade. Currently, trailing stop losses are not supported. It will also only trade once a day. It keeps trades of a fixed size, not changing them or undertaking new trades until the current trade has been closed.
 
 Hopefully the assumptions implemented here are reasonable enough to be useful for simulating the performance of a trading rule.
 
