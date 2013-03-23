@@ -175,7 +175,14 @@ Each line corresponds to a simulated trade. The meaning of the columns are as fo
 * Profit is the amount of profit made on each trade after accounting for slippage and commissions. Losses will appear as negative profit.
 * Balance is the simulated account balance at the end of the trade on that line; the balance column constitutes an "equity curve".
 
-So, what does the trade log above mean? How did we do overall? Well, let's have a look. In the sample output above, all trades were opened shortly after trading commenced and generally closed shortly afterward, with most trades only being held for 5-20 minutes before being closed. If we look at the Balance column, we see from our simulated starting pool of $100,000 we ended with $101,126.92 after accounting for trading costs; we profited. This output was on ATVI when it was currently going up and down in an erratic fashion; we managed to profit despite the chaos, specifically because of how our trading system is designed. Hooray!
+So, what does the trade log above mean? How did we do overall? Well, let's have a look. The program was run on a computer on the west coast of the USA, with PDT timezone, 3 hours behind the stock exchange in New York. So here in our dataset, trading commences each day at 6:30. In the sample output above, we can see all trades were opened shortly after trading commenced (around 6:30-6:40 or so) and generally closed 5-20 minutes before being closed. If we look at the Balance column, we see from our simulated starting pool of $100,000 we ended with $101,126.92 after accounting for trading costs; we profited. This output was on ATVI when it was currently going up and down in an erratic fashion; we managed to profit despite the chaos, specifically because of how our trading system is designed. And, in fact, every single one of our simulated trades was profitable, even while the stock overall was going up and down. In this regard, we would have experienced a much better feeling of confidence than if we had just bought and held. Hooray!
+
+Let's talk for a second about this strategy compared to buy and hold. Someone who buys shares and holds on to them will profit more than an [active trading](http://www.investopedia.com/active-trading/) strategy like what Bateman suggests, yes; and we will rack up lots of expenses from commissions that eat into our profits. But our trading strategy can also give us much more consistent profits on a day-to-day basis than buy-and-hold, even though buy-and-hold will outperform this strategy in the long term for some stocks.
+
+What's coming next?
+===================
+
+I'd like to make the program more configurable and more easy to understand.
 
 I'm planning to have nice, automated plotting of the trading log along with the data trained against with [R](http://www.r-project.org/) and [ggplot2](http://ggplot2.org/) in order to better visualize the simulated trades soon, but for now using existing facilities in Excel or R ad-hoc suffice.
 
