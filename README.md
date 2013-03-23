@@ -21,7 +21,7 @@ I don't have any professional experience in the finance or investment banking in
 Have you traded this with real money? Does it work?
 ---------------------------------------------------
 
-I haven't risked any money on this. It produces profitable results on historical data I've tried it against recently (see a sample result below), but that's definitely not a guarantee of actual trading performance.
+I haven't risked any money on this. It produces profitable simulated results on historical data I've tried it against recently (see a sample result below), but that's definitely not a guarantee of actual trading performance.
 
 This is Open Source software, which basically means I owe you nothing and this software doesn't necessarily work. Please read the LICENSE file carefully. It's not my fault if on the off chance you use this and lose money! You have no recourse against me. Again, refer to [the license](https://github.com/fearofcode/bateman/blob/master/LICENSE).
 
@@ -35,22 +35,22 @@ Note that "algorithmic trading" should be distinguished from "high-frequency tra
 
 Additionally, Bateman isn't really a fully algorithmic trading app, since it doesn't actually place trades itself; it just tries to find numbers that would allow a human trader to trade successfully. So it enables "systematic trading", where a program emits outputs that suggest a rigid, objective course of action that the human trader is then supposed to follow. Many people are unable to follow through with this and generally lose money as a result.
 
-Further in the past, all trading would be done in a discretionary fashion, with analysts or traders trying to combine macroeconomic information with technical analysis/charting to figure out how to trade. It's generally agreed that due to the psychological factors involved in trading, humans are less skilled at executing trades than pre-configured trading systems. This is due to factors like second-guessing, over-thinking, being indecisive or changing one's mind, etc.,, almost always to one's own detriment.
+Further in the past, all trading would be done in a discretionary fashion, with analysts or traders trying to combine macroeconomic information (["fundamental analysis"](http://en.wikipedia.org/wiki/Fundamental_analysis); think Warren Buffet) with [technical analysis](http://en.wikipedia.org/wiki/Technical_analysis)/charting (think voodoo snake oil bullshit, in my opinion) to figure out how to trade. It's generally agreed that due to the psychological factors involved in trading, humans are less skilled at executing trades than pre-configured trading systems. This is due to factors like second-guessing, over-thinking, being indecisive or changing one's mind, etc.,, almost always to one's own detriment.
  
 Hence, people who trade often look for rigorous, quantitative "trading systems" that enable "systematic trading" if used and followed properly. Instructions for working with this trading system are included below.
 
-As simple as a small set of numerical parameters to guide trades is, therein lies its strength: the assumptions behind Bateman are minimal, and not meant to be universally applicable; it's instead intended to be used on stocks that have in the past displayed a specific property on a frequent basis.
+Any time you build a system with parameters that get "learned" or "optimized" with some kind of underlying assumption behind it, you're basically building a statistical model. Other financial models often have much stronger assumptions, such as a normal distribution of returns or [mean reversion](http://en.wikipedia.org/wiki/Mean_reversion_(finance)).
 
-Any time you build a system with parameters that get "learned" or "optimized" with some kind of underlying assumption behind it, you're basically building a statistical model. Models with too many parameters or of too great complexity that are tested on historical data wind up being overtrained to that data, and just memorizing it, with the consequence that they do poorly on future, unforeseen data.
+Bateman is intended to have good "generalization" and future performance by being limited in its assumptions. Bateman's assumption is that some stocks go up a little sometimes. A plot of a "Bateman model" consists of a couple of horizontal lines, nothing more.
 
-Bateman is intended to have good generalization and future performance by being limited in its assumptions. A plot of a "Bateman model" consists of a couple of horizontal lines, nothing more.
+Compared to the moving averages and other indicators many traders use, this is very simple: wait for the stock to go up a little bit, buy, wait for it to go up a little more, sell, then do it again the next day. This can be carried out through a limit order with pre-determined profit targets and stop losses, and a model like that is perfect for someone who isn't a professional trader. If it no longer goes up during the day the way it used to, stop trading that stock and look for another one. If no stocks display this volatility property regularly enough, don't use the system. Simple as that.
 
-Compared to the moving averages and other indicators many traders use, this is very simple: wait for the stock to go up a little bit, buy, wait for it to go up a little more, sell, then do it again the next day. If it no longer goes up during the day the way it used to, stop trading that stock and look for another one. If no stocks display this volatility property regularly enough, don't use the system. Simple as that.
+But, you might be asking yourself, isn't computer AI kind of lousy at complex tasks like this? Well, as imperfect as computers are at complex decision-making tasks, *their systematic nature gives them a certain edge versus humans in financial markets*. As simple as a small set of numerical parameters to guide trades is, therein lies its strength: the assumptions behind Bateman are minimal, and not meant to be universally applicable; it's instead intended to be used on stocks that have in the past displayed a specific property on a frequent basis. It's well-known in machine learning that models with too many parameters or of too great complexity that are tested on historical data wind up being overtrained to that data, and effectively just memorizing it, with the consequence that they do poorly on future, unforeseen data. This, unfortunately, is why it's not generally practical or effective to build huge models that handle every conceivable scenario and do lots of stuff.
 
 Why write something from scratch? Aren't there tools out there for this?
 ------------------------------------------------------------------------
 
-There are many different ways to write a trading system. Many trading systems live in an awful hell-world of Excel spreadsheets and VBA macros. Many others exist as scripts for tools like [MetaTrader](http://www.metaquotes.net/en/metatrader4), which have built in programming languages intended to be friendly to non-professional programmers.
+There are many different ways to write a trading system. Many trading systems consist of an awful hell-world of Excel spreadsheets and VBA macros. Many others exist as scripts for tools like [MetaTrader](http://www.metaquotes.net/en/metatrader4), which have built in programming languages intended to be friendly to non-professional programmers.
 
 They also include optimization facilities for finding numerical parameters to trading systems, like genetic algorithms.
 
@@ -58,9 +58,9 @@ Probably the easiest way to go in general would be to use [Quantopian](http://ww
 
 Unfortunately, I think all of those existing tools are inadequate because they're proprietary blackboxes that can't really be changed. The vendors never give any specific details of what *kind* of genetic algorithms are in their software, for instance; if you wanted to use a more sophisticated variant, you might not even be able to due to the scripting language's lack of support for data structures, references/pointers, or whatever.
 
-It's basically a pile of proprietary horseshit, for the most part, which is why I decided to write my own from scratch.
+It's basically a pile of proprietary horseshit, for the most part, which is why I decided to write my own from scratch. Of course, for any flaws MetaTrader and the like have, they're way better than Excel being used for something it most definitely wasn't designed for.
 
-I decided to use particle swarm optimization rather than genetic algorithms because PSO can often be better for continuous optimization tasks, whereas genetic algorithms seem, to me, more suited for discrete/combinatorial tasks like scheduling and routing.
+Finally, I'd like to comment on the choice of optimization algorithm. I decided to use [particle swarm optimization](http://en.wikipedia.org/wiki/Particle_swarm_optimization) rather than genetic algorithms because PSO can often be better for continuous optimization tasks, whereas genetic algorithms seem, to me, more suited for discrete/combinatorial tasks like scheduling and routing.
 
 What is the idea behind the trading system?
 -------------------------------------------
