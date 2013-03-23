@@ -1,8 +1,6 @@
 package org.wkh.bateman.model;
 
 import java.math.BigDecimal;
-import java.util.Map;
-import java.util.TreeMap;
 import org.joda.time.DateTime;
 import org.wkh.bateman.pso.FitnessFunction;
 import org.wkh.bateman.pso.SimpleParticleSwarmOptimizer;
@@ -12,7 +10,6 @@ import org.wkh.bateman.trade.Conditions;
 import org.wkh.bateman.trade.FixedPercentageAllocationStrategy;
 import org.wkh.bateman.trade.GoogleQuoteFetcher;
 import org.wkh.bateman.trade.MoneyManagementStrategy;
-import org.wkh.bateman.trade.Rule;
 import org.wkh.bateman.trade.Session;
 import org.wkh.bateman.trade.TimeSeries;
 
