@@ -61,7 +61,7 @@ public class GoogleQuoteFetcher implements QuoteFetcher {
                 date = new DateTime((long)timestamp*1000L);
             } else {
                 DateTime previousDate = quotes.get(quotes.size()-1).getOpenDate();
-                date = previousDate.plusSeconds(Integer.parseInt(dateStr) * interval);
+                date = previousDate.plusSeconds(interval);
             }
             
             Quote quote = new Quote(date, 
@@ -76,5 +76,14 @@ public class GoogleQuoteFetcher implements QuoteFetcher {
         }
         
         return quotes;
+    }
+    
+    public TimeSeries fetchAndParse(String symbol, int days, int interval) throws Exception {
+        String requestResult = fetchQuotes(symbol, days, interval);
+        List<Quote> parsed = parseQuotes(requestResult, interval);
+        
+        QuoteCollection qc = new QuoteCollection();
+        
+        return qc.convertQuoteToTimeSeries(parsed);
     }
 }

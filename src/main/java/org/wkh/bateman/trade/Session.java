@@ -11,6 +11,7 @@ import org.joda.time.format.DateTimeFormatter;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -124,10 +125,15 @@ public class Session {
 
     // TODO fuck this awful code
 
+    public String printNum(BigDecimal num) {
+        DecimalFormat myFormatter = new DecimalFormat(".##");
+        return myFormatter.format(num.doubleValue());
+    }
+    
     public void dumpTo(String directory, int generation) throws Exception {
         long now = System.currentTimeMillis();
         String sessionStr = now + "_generation_" + generation;
-        String dataFilename = sessionStr + "_trades.dat";
+        String dataFilename = sessionStr + "_trades.csv";
         String directoryStr = directory + (directory.endsWith("?") ? "" : "/");
         String dataPath = directoryStr + dataFilename;
 
@@ -135,54 +141,20 @@ public class Session {
 
         BufferedWriter out = new BufferedWriter(new FileWriter(dataPath));
 
-        out.write("# Trade log\n");
-        out.write("# Open Close OpenPrice ClosePrice Type Size OutlayCost Profit Balance\n");
+        out.write("Open,Close,OpenPrice,ClosePrice,Type,Size,OutlayCost,Profit,Balance\n");
 
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("Y-MM-dd");
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("Y-MM-dd H:mm");
 
         for(Trade trade : trades) {
             String openStr = fmt.print(trade.getOpen());
             String closeStr = fmt.print(trade.getClose());
 
-            out.write(openStr + " " + closeStr + " " + trade.getAsset().priceAt(trade.getOpen()) + " " +
-                    trade.getAsset().priceAt(trade.getClose()) + " " + trade.getType() + " " + trade.getSize() + " " +
-                    trade.getPurchasePrice() + " " + trade.profit() + " " + account.valueAtTime(trade.getClose()) + "\n");
+            out.write(openStr + "," + closeStr + "," + printNum(trade.getAsset().priceAt(trade.getOpen())) + "," +
+                    printNum(trade.getAsset().priceAt(trade.getClose())) + "," + trade.getType() + "," + trade.getSize() + "," +
+                    printNum(trade.getPurchasePrice()) + "," + printNum(trade.profit()) + "," + printNum(account.valueAtTime(trade.getClose())) + "\n");
         }
 
         out.write("\n\n");
-
-        TimeSeries series = trades.get(0).getAsset().getTimeSeries();
-
-        String oldType = null;
-
-        out.write("# Price history by trade status\n");
-
-        for(Map.Entry<DateTime, BigDecimal> entry : series.getPrices().entrySet()) {
-            String defaultState = "NOT_IN_MARKET";
-            String currentType = defaultState;
-
-            DateTime date = entry.getKey();
-            boolean inMarket = inMarket(date);
-            String dateStr = fmt.print(date);
-
-            if(inMarket) {
-                Trade currentTrade = tradeAt(date);
-
-                if(currentTrade == null) {
-                    throw new Exception("Can't find trade for date " + date);
-                }
-
-                currentType = currentTrade.getType().toString();
-            }
-
-            if(oldType != null && !currentType.equals(oldType)) {
-                out.write(dateStr + " " + entry.getValue() + " " + oldType + "\n\n\n");
-            }
-
-            out.write(dateStr + " " + entry.getValue() + " " + currentType + "\n");
-
-            oldType = currentType;
-        }
 
         out.close();
     }

@@ -31,7 +31,7 @@ public abstract class Rule {
 
         for (Map.Entry<DateTime, BigDecimal> kv : slice.entrySet()) {
             DateTime time = kv.getKey();
-
+            BigDecimal price = kv.getValue();
             boolean doBuy = buy(time, session);
             boolean doSell = sell(time, session);
             if (doBuy || doSell) {
