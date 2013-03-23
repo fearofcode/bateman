@@ -21,7 +21,7 @@ I don't have any professional experience in the finance or investment banking in
 Have you traded this with real money? Does it work?
 ---------------------------------------------------
 
-I haven't risked any money on this. It produces profitable results on some simulated data (see a sample result below), but that's definitely not a guarantee of actual trading performance.
+I haven't risked any money on this. It produces profitable results on historical data I've tried it against recently (see a sample result below), but that's definitely not a guarantee of actual trading performance.
 
 This is Open Source software, which basically means I owe you nothing and this software doesn't necessarily work. Please read the LICENSE file carefully. It's not my fault if on the off chance you use this and lose money! You have no recourse against me. Again, refer to [the license](https://github.com/fearofcode/bateman/blob/master/LICENSE).
 
