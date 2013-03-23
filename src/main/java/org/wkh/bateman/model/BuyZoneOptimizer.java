@@ -71,7 +71,7 @@ public class BuyZoneOptimizer {
     public static void main(String[] args) throws Exception {
         
         int days = 30;
-        String symbol = "ATVI";
+        String symbol = "AAPL";
         final double commission = 10.0; // $10.00 a trade
         final double slippage = 1.0E-4; // 0.01% mean slippage
         final int initialBalance = 100000; // $100,000 to start with
