@@ -14,9 +14,16 @@ Obviously, don't use this for trading real money. On the off chance you find thi
 Who are you?
 ------------
 
-My name is Warren Henning. I'm a 27 year old software developer living in Berkeley, California. I am currently available for work! Shoot me and email if you're interested.
+My name is Warren Henning. I'm a 27 year old software developer living in Berkeley, California. I am currently available for work! Shoot me an email if you're interested.
 
 I don't have any professional experience in the finance or investment banking industries. I've never worked for a bank. This is just a hobby project I've wanted to do for a long time.
+
+Have you traded this with real money? Does it work?
+---------------------------------------------------
+
+I haven't risked any money on this. It produces profitable results on some simulated data (see a sample result below), but that's definitely not a guarantee of actual trading performance.
+
+This is Open Source software, which basically means I owe you nothing and this software doesn't necessarily work. Please read the LICENSE file carefully. It's not my fault if on the off chance you use this and lose money! You have no recourse against me. Again, refer to [the license](https://github.com/fearofcode/bateman/blob/master/LICENSE).
 
 Why are you doing this? How can you write a program to pick stock trades?
 -------------------------------------------------------------------------
