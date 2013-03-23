@@ -85,7 +85,14 @@ The "sell trigger" is the amount above the price shares were purchased at to sel
 
 The stop loss is used in the normal sense as a risk management procedure to cut losses.
 
-Sample values it might wind up spitting back would be "buy trigger = 0.1, sell trigger = 0.5, stop loss = 0.1". this would be interpreted to mean the following: "if the stock is up $0.10 or more since the beginning of trading, BUY; if, after buying, the stock has gone up an additional $0.50, SELL; if, after buying, the stock has gone down by $0.10 or more, sell; if we still haven't sold shares of stock and the end of the trading day is imminent, SELL, regardless of current share price". Notice how this is systematic, quantitative, and could be automatically executed by a computer without human intervention. This is why Bateman is a "trading system" or enables "systematic trading": it suggests a course of action that completely removes qualitative judgment or fickle human decision-making.
+So what does it actually give back to you?
+------------------------------------------
+
+Sample values it might wind up spitting back would be "buy trigger = 0.1, sell trigger = 0.5, stop loss = 0.07". This would be interpreted to mean the following:
+
+> "If the stock price is currently up $0.10 or more since the beginning of trading, then BUY; if, after buying, the stock has gone up an additional $0.50, SELL. Additionally, if, after buying, the stock price has gone down by $0.07 or more, sell. If we still haven't sold shares of stock and the end of the trading day is imminent, SELL, regardless of current share price".
+
+Notice how this is systematic, quantitative, and could be automatically executed by a computer without human intervention. This is why Bateman is a "trading system" or enables "systematic trading": it suggests a course of action that completely removes qualitative judgment or fickle human decision-making.
 
 *Is it really worth the trouble to use an algorithm to find the buy and sell triggers?* Well, when I tried to figure out good buy and sell triggers by hand by looking at graphs of intraday data, my results were significantly worse than the numbers Bateman comes up with through its particle swarm algorithm, so I think this program adds real value. Besides, doing that by hand when you have a quad-core computer in front of you seems silly.
 
