@@ -49,7 +49,7 @@ Any time you build a system with parameters that get "learned" or "optimized" wi
 
 Bateman is intended to have good "generalization" and future performance by being limited in its assumptions. Bateman's assumption is that some stocks go up a little sometimes. A plot of a "Bateman model" consists of a couple of horizontal lines, nothing more.
 
-Compared to the [moving averages] and other [indicators](http://www.investopedia.com/terms/t/technicalindicator.asp) many traders use, this is very simple: wait for the stock to go up a little bit, buy, wait for it to go up a little more, sell, then do it again the next day. This can be carried out through a [limit order](http://www.investopedia.com/terms/l/limitorder.asp) with pre-determined profit targets and stop losses, and a model like that is perfect for someone who isn't a professional trader. If it no longer goes up during the day the way it used to, stop trading that stock and look for another one. If no stocks display this volatility property regularly enough, don't use the system. Simple as that.
+Compared to the [moving averages] and other [indicators](http://www.investopedia.com/terms/t/technicalindicator.asp) many traders use, this is very simple: wait for the stock to go up a little bit, buy, wait for it to go up a little more, sell, then do it again the next day. This can be carried out through a [limit order](http://www.investopedia.com/terms/l/limitorder.asp) with pre-determined profit targets and [stop losses](http://www.investopedia.com/terms/s/stop-lossorder.asp), and a model like that is perfect for someone who isn't a professional trader. If it no longer goes up during the day the way it used to, stop trading that stock and look for another one. If no stocks display this volatility property regularly enough, don't use the system. Simple as that.
 
 But, you might be asking yourself, isn't computer AI kind of lousy at complex tasks like this? Well, as imperfect as computers are at complex decision-making tasks, *their systematic nature gives them a certain edge versus humans in financial markets*. As simple as a small set of numerical parameters to guide trades is, therein lies its strength: the assumptions behind Bateman are minimal, and not meant to be universally applicable; it's instead intended to be used on stocks that have in the past displayed a specific property on a frequent basis. It's well-known in machine learning that models with too many parameters or of too great complexity that are tested on historical data wind up being overtrained to that data, and effectively just memorizing it, with the consequence that they do poorly on future, unforeseen data. This, unfortunately, is why it's not generally practical or effective to build huge models that handle every conceivable scenario and do lots of stuff.
 
@@ -83,12 +83,12 @@ The "buy trigger" is the amount above the open price for the day that it will bu
 
 The "sell trigger" is the amount above the price shares were purchased at to sell. If the sell trigger is not met by the end of the day, the shares are sold so that no positions are carried overnight.
 
-The stop loss is used in the normal sense as a risk management procedure to cut losses.
+The stop loss is used in the normal sense as a [risk management](http://www.investopedia.com/articles/trading/09/risk-management.asp) procedure to cut losses.
 
 So what does it actually give back to you?
 ------------------------------------------
 
-Sample values it might wind up spitting back would be "buy trigger = 0.1, sell trigger = 0.5, stop loss = 0.07". This would be interpreted to mean the following:
+After downloading data from the Internet and running through the optimization process, some sample values it might wind up spitting back would be something like "buy trigger = 0.1, sell trigger = 0.5, stop loss = 0.07". This would be interpreted to mean the following:
 
 > "If the stock price is currently up $0.10 or more since the beginning of trading, then BUY; if, after buying, the stock has gone up an additional $0.50, SELL. Additionally, if, after buying, the stock price has gone down by $0.07 or more, sell. If we still haven't sold shares of stock and the end of the trading day is imminent, SELL, regardless of current share price".
 
