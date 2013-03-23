@@ -22,84 +22,97 @@ import org.wkh.bateman.trade.TimeSeries;
  * 
  * Everything else in the project basically builds up to this. How exciting!
  *  
-*/
+ */
 public class BuyZoneOptimizer {
-    public static double[] optimizeTriggers(final Account account, final Asset asset, final Conditions conditions, 
-            final MoneyManagementStrategy moneyManager) {
-        FitnessFunction fitness = new FitnessFunction() {
 
+    public static double[] optimizeTriggers(final TimeSeries series, final String symbol, final int days, 
+            double commissions, final double slippage, final int initialBalance, final double allocation, final double maxPercentage, 
+            final int generations) throws Exception {
+
+        final Asset asset = new Asset(symbol, series);
+
+        final Conditions conditions = new Conditions(new BigDecimal(commissions), new BigDecimal(slippage));
+
+        final MoneyManagementStrategy moneyManager = new FixedPercentageAllocationStrategy(allocation, asset);
+
+        FitnessFunction fitness = new FitnessFunction() {
             public double evaluate(double[] x) {
                 double buyTrigger = x[0];
                 double sellTrigger = x[1];
                 double stopLoss = x[2];
-                
-                BuyZoneModel model = new BuyZoneModel(account, asset, conditions, moneyManager, buyTrigger, sellTrigger, stopLoss);
-                
+
                 try {
-                    Session tradingSession = model.generateSignals(asset.getTimeSeries().beginningOfSeries(), 
-                        asset.getTimeSeries().lastOfSeries());
-                    
-                    return -tradingSession.grossProfit().doubleValue();
-                } catch(Exception ex) {
+                    Account account = new Account(new BigDecimal(initialBalance), DateTime.now().minusDays(days));
+
+                    BuyZoneModel model = new BuyZoneModel(account, asset, conditions, moneyManager, buyTrigger, sellTrigger, stopLoss);
+
+                    Session tradingSession = model.generateSignals(asset.getTimeSeries().beginningOfSeries(),
+                            asset.getTimeSeries().lastOfSeries());
+
+                    //return -tradingSession.grossProfit().doubleValue();
+                    return -tradingSession.sharpeRatio();
+                } catch (Exception ex) {
                     ex.printStackTrace();
-                    
+
                     return Double.MAX_VALUE;
                 }
             }
         };
-        
+
         BigDecimal lastPrice = asset.priceAt(asset.getTimeSeries().lastOfSeries());
-        
-        double lastPriceFraction = lastPrice.multiply(new BigDecimal(0.05)).doubleValue();
-        
-        double[] xmin = new double[] {0.0, 0.0, 0.0};
-        double[] xmax = new double[] {lastPriceFraction, lastPriceFraction, lastPriceFraction};
-        
-        SimpleParticleSwarmOptimizer optimizer = new SimpleParticleSwarmOptimizer(fitness, xmin, xmax, 250);
-        
+
+        double lastPriceFraction = lastPrice.multiply(new BigDecimal(maxPercentage)).doubleValue();
+
+        double[] xmin = new double[]{0.0, 0.0, 0.0};
+        double[] xmax = new double[]{lastPriceFraction, lastPriceFraction, lastPriceFraction};
+
+        SimpleParticleSwarmOptimizer optimizer = new SimpleParticleSwarmOptimizer(fitness, xmin, xmax, generations);
+
         return optimizer.learn();
     }
-    
+
     public static void main(String[] args) throws Exception {
+        
+        int days = 30;
+        String symbol = "AAPL";
+        final double commission = 10.0; // $10.00 a trade
+        final double slippage = 1.0E-4; // 0.01% mean slippage
+        final int initialBalance = 100000; // $100,000 to start with
+        final double accountAllocation = 0.75; // risk 75% of capital
+        final double maxPercentage = 0.01; // restrict parameters to 1.5% of the opening price on first day's data
+        final int generations = 25; // generations to train for
+        
         DateTime today = DateTime.now();
 
         GoogleQuoteFetcher fetcher = new GoogleQuoteFetcher();
-       
-        int days = 30;
-        String symbol = "AAPL";
-        
+
         TimeSeries series = fetcher.fetchAndParse(symbol, days, 60); // one minute
         
-        Asset asset = new Asset(symbol, series);
+        double[] bestOffsets = optimizeTriggers(series, symbol, days, commission, 
+                slippage, initialBalance, accountAllocation, maxPercentage, generations);
 
-        Account account = new Account(new BigDecimal(100000), today.minusDays(days));
-
-        Conditions conditions = new Conditions(new BigDecimal(10.0), new BigDecimal(0.0001));
-        MoneyManagementStrategy moneyManager = new FixedPercentageAllocationStrategy(0.75, asset);
-
-        BuyZoneModel instance;
-        
-        double buyTrigger = 0.25;
-        double sellTrigger = 2.0;
-        double stopLoss = 1.5;
-        
-        instance = new BuyZoneModel(account, asset, conditions, 
-                moneyManager, buyTrigger, sellTrigger, stopLoss);
-        
-        Session session = instance.generateSignals(series.beginningOfSeries(), series.lastOfSeries());
-        
-        session.dumpTo(".", 1);
-        
-        /*double[] bestOffsets = optimizeTriggers(account, asset, conditions, moneyManager);
-        
         double buyTrigger = bestOffsets[0];
         double sellTrigger = bestOffsets[1];
         double stopLoss = bestOffsets[2];
-        
+
         System.out.println("buyTrigger: " + buyTrigger);
         System.out.println("sellTrigger; " + sellTrigger);
-        System.out.println("stopLoss: " + stopLoss);*/
-        
-        
+        System.out.println("stopLoss: " + stopLoss);
+
+        Asset asset = new Asset(symbol, series);
+
+        Account account = new Account(new BigDecimal(initialBalance), today.minusDays(days));
+
+        Conditions conditions = new Conditions(new BigDecimal(commission), new BigDecimal(slippage));
+        MoneyManagementStrategy moneyManager = new FixedPercentageAllocationStrategy(accountAllocation, asset);
+
+        BuyZoneModel instance = new BuyZoneModel(account, asset, conditions,
+                moneyManager, buyTrigger, sellTrigger, stopLoss);
+
+        Session session = instance.generateSignals(series.beginningOfSeries(), series.lastOfSeries());
+
+        session.dumpTo(".", 1);
+
+
     }
 }
