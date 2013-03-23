@@ -73,7 +73,7 @@ What is the idea behind the trading system?
 
 As mentioned above, Bateman tries to buy a stock slightly above its open and below or near its daily high. Rather than trying to build a forecasting model, Bateman is intended for use with stocks that have a frequent high positive difference between daily high and open share price, so that regardless of what happens by the end of the day, at some point it will likely exhibit behavior that can be profitably exploited.
 
-To find what the values of these constants should be for a given stock, it downloads recent data for that stock and tries to find the numbers for each that would be most profitable for that data. To compute this, it takes a given possible candidate set of constants and backtests them, simulating trading using the historical data it acquires. As it's an optimization algorithm, it gravitates towards more profitable constants. 
+To find what the values of these constants should be for a given stock, it downloads recent data for that stock and tries to find the numbers for each that would be most profitable for that data. To compute this, it takes a given possible candidate set of constants and [backtests](http://en.wikipedia.org/wiki/Backtesting) them, simulating trading using the historical data it acquires. As it's an optimization algorithm, it gravitates towards more profitable constants. 
 
 It will only do one trade at a time, long-only. It currently keeps trades fixed-size, and otherwise keeps things pretty simple.
 
@@ -174,6 +174,8 @@ Each line corresponds to a simulated trade. The meaning of the columns are as fo
 * OutlayCost is the total cost of purchasing all the shares.
 * Profit is the amount of profit made on each trade after accounting for slippage and commissions. Losses will appear as negative profit.
 * Balance is the simulated account balance at the end of the trade on that line; the balance column constitutes an "equity curve".
+
+So, what does the trade log above mean? How did we do overall? Well, let's have a look. In the sample output above, all trades were opened shortly after trading commenced and generally closed shortly afterward, with most trades only being held for 5-20 minutes before being closed. If we look at the Balance column, we see from our simulated starting pool of $100,000 we ended with $101,126.92 after accounting for trading costs; we profited. This output was on ATVI when it was currently going up and down in an erratic fashion; we managed to profit despite the chaos, specifically because of how our trading system is designed. Hooray!
 
 I'm planning to have nice, automated plotting of the trading log along with the data trained against with [R](http://www.r-project.org/) and [ggplot2](http://ggplot2.org/) in order to better visualize the simulated trades soon, but for now using existing facilities in Excel or R ad-hoc suffice.
 
