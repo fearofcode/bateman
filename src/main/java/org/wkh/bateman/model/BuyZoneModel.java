@@ -40,7 +40,7 @@ public class BuyZoneModel extends Rule {
     @Override
     public boolean buy(DateTime time, Session session) {
         BigDecimal open = asset.getTimeSeries().openOnDay(time);
-        BigDecimal current = asset.getTimeSeries().priceAt(time);
+        BigDecimal current = asset.priceAt(time);
         BigDecimal increase = current.subtract(open);
         
         return !session.inMarket(time) && increase.compareTo(buyTrigger) > 0;
@@ -52,8 +52,9 @@ public class BuyZoneModel extends Rule {
             return false;
         
         BigDecimal open = asset.getTimeSeries().openOnDay(time);
-        BigDecimal buyPrice = open.add(buyTrigger);
-        BigDecimal current = asset.getTimeSeries().priceAt(time);
+        DateTime buyDate = session.lastTrade().getOpen();
+        BigDecimal buyPrice = asset.priceAt(buyDate);
+        BigDecimal current = asset.priceAt(time);
         BigDecimal difference = current.subtract(buyPrice);
         
         // exit if at end of day, if our sell trigger threshold is reached,
@@ -63,9 +64,9 @@ public class BuyZoneModel extends Rule {
         
         boolean atEndOfDay = time.compareTo(endOfDay) >= 0;
         
-        boolean thresholdReached = difference.compareTo(sellTrigger) > 0;
+        boolean thresholdReached = difference.compareTo(sellTrigger) >= 0;
         
-        boolean stopLossReached = buyPrice.subtract(current).compareTo(stopLoss) > 0;
+        boolean stopLossReached = buyPrice.subtract(current).compareTo(stopLoss) >= 0;
         
         return atEndOfDay || thresholdReached || stopLossReached;
     }

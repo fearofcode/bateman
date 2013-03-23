@@ -71,7 +71,7 @@ public class BuyZoneModelTest extends TestCase {
         
     }
 
-    public void testSell() throws Exception {
+    public void testThresholdSell() throws Exception {
         assertEquals(instance.sell(today.plusMinutes(2), session), false);
         
         session.addTrade(new Trade(asset, today.plusMinutes(1)));
@@ -80,6 +80,36 @@ public class BuyZoneModelTest extends TestCase {
         assertEquals(instance.sell(today.plusMinutes(3), session), true);
     }
     
+    public void testStopLossSell() throws Exception {
+        toyPrices = new TreeMap<DateTime, BigDecimal>();
+        toyPrices.put(today, new BigDecimal(10));
+        toyPrices.put(today.plusMinutes(1), new BigDecimal(10.5));
+        toyPrices.put(today.plusMinutes(2), new BigDecimal(10.26));
+        toyPrices.put(today.plusMinutes(3), new BigDecimal(10.25));
+        toyPrices.put(today.plusMinutes(4), new BigDecimal(11.5));
+        series = new TimeSeries(toyPrices);
+        asset = new Asset("FOO", series);
+
+        account = new Account(new BigDecimal(1000), today.minusDays(6));
+
+        conditions = new Conditions(BigDecimal.ZERO, BigDecimal.ZERO);
+        moneyManager = new FixedPercentageAllocationStrategy(0.2, asset);
+        session = new Session(account, conditions);
+
+        buyTrigger = 0.4;
+        sellTrigger = 1.0;
+        stopLoss = 0.25;
+        
+        instance = new BuyZoneModel(account, asset, conditions, 
+                moneyManager, buyTrigger, sellTrigger, stopLoss);
+        
+        session.addTrade(new Trade(asset, today.plusMinutes(1)));
+        
+        assertEquals(instance.sell(today.plusMinutes(1), session), false);
+        assertEquals(instance.sell(today.plusMinutes(2), session), false);
+        assertEquals(instance.sell(today.plusMinutes(3), session), true);
+        
+    }
     public void testEndOfDaySell() throws Exception {
         sellTrigger = 1337.0;
         instance = new BuyZoneModel(account, asset, conditions, 
