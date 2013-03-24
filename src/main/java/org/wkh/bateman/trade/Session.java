@@ -130,10 +130,9 @@ public class Session {
         return myFormatter.format(num.doubleValue());
     }
     
-    public void dumpTo(String directory, int generation) throws Exception {
+    public void dumpTo(String directory, String description) throws Exception {
         long now = System.currentTimeMillis();
-        String sessionStr = now + "_generation_" + generation;
-        String dataFilename = sessionStr + "_trades.csv";
+        String dataFilename = now + "_" + description + "_trades.csv";
         String directoryStr = directory + (directory.endsWith("?") ? "" : "/");
         String dataPath = directoryStr + dataFilename;
 

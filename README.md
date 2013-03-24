@@ -9,7 +9,7 @@ It's based off the observation that many symbols display sufficient daily volati
 
 The strategy has its parameters refined by [particle swarm optimization](http://en.wikipedia.org/wiki/Particle_swarm_optimization), a simple continuous optimization algorithm, so that you don't have to figure out the parameters for each stock you're interested in by hand.
 
-It's currently in an experimental phase and shows some promise for finding easy, consistent profits in US equities markets for high market-cap, highly liquid stocks like GOOG, AAPL, et al.
+It's currently in an experimental phase and shows some promise, but more research is needed. See below for a sample run of it.
 
 Obviously, don't use this for trading real money. On the off chance you find this code interesting and would like to do something serious with it, contact me at [warren.henning@gmail.com](mailto:warren.henning@gmail.com).
 
@@ -143,32 +143,38 @@ A sample run
 
 When you run this, most of the outcome will be the progress of the particle swarm optimizer. Some sample output follows:
 
-    01:36:12.597 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Particle swarm initialized
-    01:36:12.599 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 1: best value -0.11458544892510408 at coords [0.07830408516595858, 0.011550950927561175, 0.014681264158640336]
-    01:36:12.732 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 2: best value -0.11458544892510408 at coords [0.07830408516595858, 0.011550950927561175, 0.014681264158640336]
+    19:08:08.823 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Particle swarm initialized
+    19:08:08.826 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 1: best value -3.997767886481586 at coords [3.1630116747446597, 0.925611689893554, 4.923628080488617]
+    19:08:08.969 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 2: best value -3.997767886481586 at coords [3.1630116747446597, 0.925611689893554, 4.923628080488617]
+    19:08:09.119 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 3: best value -4.98212481879689 at coords [2.908087405965829, 0.5872454367414206, 5.0]
+    19:08:09.256 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 4: best value -4.98212481879689 at coords [2.908087405965829, 0.5872454367414206, 5.0]
+    19:08:09.376 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 5: best value -4.98212481879689 at coords [2.908087405965829, 0.5872454367414206, 5.0]
+    19:08:09.525 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 6: best value -4.98212481879689 at coords [2.908087405965829, 0.5872454367414206, 5.0]
+    19:08:09.641 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 7: best value -4.98212481879689 at coords [2.908087405965829, 0.5872454367414206, 5.0]
+    19:08:09.756 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 8: best value -4.98212481879689 at coords [2.908087405965829, 0.5872454367414206, 5.0]
+    19:08:09.874 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 9: best value -8.287200013405691 at coords [3.032232784498607, 1.6150053529790762, 5.0]
+    19:08:09.987 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 10: best value -8.287200013405691 at coords [3.032232784498607, 1.6150053529790762, 5.0]
     [... optimizer output snipped ...]
-    01:36:23.810 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 99: best value -1.3850720940744385 at coords [0.009046249104476671, 0.005025694444852334, 0.10220729550198684]
-    01:36:23.919 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 100: best value -1.3850720940744385 at coords [0.009046249104476671, 0.005025694444852334, 0.10220729550198684]
-    buyTrigger: 0.009046249104476671
-    sellTrigger; 0.005025694444852334
-    stopLoss: 0.10220729550198684
-    writing data to ./1364027784033_generation_1_trades.csv
+    19:08:19.784 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 99: best value -10.028265886835749 at coords [3.27174309086396, 0.777917155353842, 5.0]
+    19:08:19.890 [main] INFO  o.w.b.p.SimpleParticleSwarmOptimizer - Generation 100: best value -10.028265886835749 at coords [3.27174309086396, 0.777917155353842, 5.0]
+    buyTrigger: 1.3691191717843187
+    sellTrigger; 1.3636180181610964
+    stopLoss: 5.0
+    writing data to ./1364090900006_AAPL_trades.csv
 
 The output excerpt shown above is an example of running the optimization process with the parameters listed above: a $100,000 starting balance, whatever historical data comes back from Google Finance, $10 trading commissions, etc. The "best values" it lists are the (negative) Sharpe ratios of the simulated trades it's running with the three numbers you see listed on each line. At each iteration, in other words, it prints out the best triggers and stop loss it's found thus far. The number should actually get lower, because as an optimization algorithm it minimizes a function; maximizing a function f(x) is, in general, equivalent to minimizing the function g(x) = -f(x). So it is trying to find minimal, negative Sharpe ratios. At the end, it prints out the best value it found in the optimization run and then writes out the given CSV file whose filename you see printed above, which you can open and examine. Here is a sample of what the CSV looks like:
 
-    Open,Close,OpenPrice,ClosePrice,Type,Size,OutlayCost,Profit,Balance
-    2013-03-04 6:40,2013-03-04 6:42,14.31,14.35,LONG,5241,75016.21,184.62,100184.62
-    2013-03-05 6:41,2013-03-05 7:15,14.47,14.48,LONG,5192,75145.75,52.85,100237.47
-    2013-03-06 6:42,2013-03-06 6:44,14.62,14.64,LONG,5142,75194.07,77.28,100314.75
-    2013-03-07 6:40,2013-03-07 6:46,14.65,14.7,LONG,5135,75245.27,231.68,100546.42
-    2013-03-11 6:31,2013-03-11 6:50,14.79,14.83,LONG,5098,75416.96,178.82,100725.24
-    2013-03-12 6:44,2013-03-12 6:57,14.81,14.83,LONG,5100,75548.55,76.88,100802.13
-    2013-03-13 6:32,2013-03-13 6:35,14.92,14.93,LONG,5067,75617.2,25.55,100827.67
-    2013-03-18 6:32,2013-03-18 6:33,14.4,14.42,LONG,5251,75631.96,79.89,100907.56
-    2013-03-19 6:32,2013-03-19 6:33,14.4,14.41,LONG,5255,75689.57,27.41,100934.97
-    2013-03-20 6:31,2013-03-20 6:32,14.2,14.22,LONG,5331,75717.24,82.0,101016.97
-    2013-03-21 6:32,2013-03-21 6:33,14.19,14.2,LONG,5339,75777.99,28.23,101045.21
-    2013-03-22 6:32,2013-03-22 7:09,14.18,14.2,LONG,5344,75795.5,81.71,101126.92
+Open,Close,OpenPrice,ClosePrice,Type,Size,OutlayCost,Profit,Balance
+2013-03-05 6:32,2013-03-05 6:39,423.43,425.26,LONG,177,74964.6,298.89,100298.89
+2013-03-07 8:09,2013-03-07 8:30,426.21,427.79,LONG,176,75030.46,253.05,100551.94
+2013-03-08 6:39,2013-03-08 6:46,432.97,434.68,LONG,174,75354.31,272.44,100824.38
+2013-03-11 11:40,2013-03-11 11:44,431.73,433.45,LONG,175,75570.31,275.86,101100.24
+2013-03-12 6:49,2013-03-12 6:54,437.01,438.5,LONG,173,75620.29,233.49,101333.73
+2013-03-13 7:14,2013-03-13 7:46,430.37,432.03,LONG,176,75762.69,266.98,101600.71
+2013-03-15 6:40,2013-03-15 6:50,439.68,441.4,LONG,173,76082.25,272.32,101873.03
+2013-03-18 6:34,2013-03-18 6:43,444.17,445.99,LONG,172,76414.88,287.71,102160.74
+2013-03-21 6:33,2013-03-21 9:41,452.53,453.96,LONG,169,76495.2,216.37,102377.11
+2013-03-22 6:51,2013-03-22 9:02,456.2,457.97,LONG,168,76659.26,272.0,102649.11
 
 Each line corresponds to a simulated trade. The meaning of the columns are as follows:
 
@@ -180,14 +186,16 @@ Each line corresponds to a simulated trade. The meaning of the columns are as fo
 * Profit is the amount of profit made on each trade after accounting for slippage and commissions. Losses will appear as negative profit.
 * Balance is the simulated account balance at the end of the trade on that line; the balance column constitutes an "equity curve".
 
-So, what does the trade log above mean? How did we do overall? Well, let's have a look. The program was run on a computer on the west coast of the USA, in the PDT timezone, 3 hours behind the stock exchange in New York. So here in our dataset, trading commences each day at 6:30 AM. In the sample output above, we can see all trades were opened shortly after trading commenced (around 6:30-6:40 or so) and generally closed within 5-20 minutes. If we look at the Balance column, we see compared to our simulated starting pool of $100,000 that we ended up with a final total of $101,126.92 after accounting for trading costs; we profited! *It worked!* This trading session was against [ATVI](http://finance.yahoo.com/q?s=ATVI&ql=1)'s stock when it was currently going up (March 4-22, 2013) and down in an erratic fashion; we managed to profit despite the chaos, specifically because of how our trading system is designed. And, in fact, every single one of our simulated trades was profitable, even while the stock overall was going up and down. In this regard, we (well, at least I) would have experienced a much better feeling of confidence than if we had just bought and held while the stock went up and down. *So this example shows the program working (on paper, at least).*
+So, what does the trade log above mean? How did we do overall? Well, let's have a look. The program was run on a computer on the west coast of the USA, in the PDT timezone, 3 hours behind the stock exchange in New York. So here in our dataset, trading commences each day at 6:30 AM. In the sample output above, we can see all trades were opened in the morning and held anywhere from 5 minutes to a few hours. In this dataset, all our trades are profitable. But if we look at the overall trend of AAPL in the date range in question, we see it was undergoing a long upward rally. So we were really just profiting from that. So, while it kind of works, to some extent we're just recapitulating buy-and-hold, but in a way that in this simulation leaves us with consistent profits every time. Our buy trigger is $1.37 and our sell trigger is $1.36, so we're really taking advantage of a stock that in hindsight was already destined to make a large upward move for the day.
 
-It's unfortunate that we don't have many trades here, but that currently can't be helped as Google Finance's intraday data only seems to go back a few weeks. :(
+It's unfortunate that we don't have many trades here, but that currently can't be helped as Google Finance's intraday data only seems to go back a few weeks. More serious usage of this would definietly require more data.
 
 Let's talk for a second about this strategy compared to [buy-and-hold](http://en.wikipedia.org/wiki/Buy_and_hold). Someone who buys shares and holds on to them will profit more than an [active trading](http://www.investopedia.com/active-trading/) strategy like what Bateman suggests, yes; and we will rack up lots of expenses from commissions that eat into our profits. But our trading strategy can also give us much more consistent profits on a day-to-day basis than buy-and-hold, even though buy-and-hold will outperform this strategy in the long term for some stocks.
 
 What's coming next?
 -------------------
+
+I need to look more into whether the assumptions the program makes about how it places its limit orders are actually realistic.
 
 I'd like to make the program more configurable and more easy to understand.
 
