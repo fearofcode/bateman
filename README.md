@@ -188,14 +188,14 @@ Each line corresponds to a simulated trade. The meaning of the columns are as fo
 
 So, what does the trade log above mean? How did we do overall? Well, let's have a look. The program was run on a computer on the west coast of the USA, in the PDT timezone, 3 hours behind the stock exchange in New York. So here in our dataset, trading commences each day at 6:30 AM. In the sample output above, we can see all trades were opened in the morning and held anywhere from 5 minutes to a few hours. In this dataset, all our trades are profitable. But if we look at the overall trend of AAPL in the date range in question, we see it was undergoing a long upward rally. So we were really just profiting from that. So, while it kind of works, to some extent we're just recapitulating buy-and-hold, but in a way that in this simulation leaves us with consistent profits every time. Our buy trigger is $1.37 and our sell trigger is $1.36, so we're really taking advantage of a stock that in hindsight was already destined to make a large upward move for the day.
 
-It's unfortunate that we don't have many trades here, but that currently can't be helped as Google Finance's intraday data only seems to go back a few weeks. More serious usage of this would definietly require more data.
+The optimizer will look for whatever maximizes our objective function. The simulation above doesn't necessarily capture anything because of the lack of data we have access to. This currently can't be helped as Google Finance's intraday data only seems to go back a few weeks. More serious usage of this would definitely require more data.
 
 Let's talk for a second about this strategy compared to [buy-and-hold](http://en.wikipedia.org/wiki/Buy_and_hold). Someone who buys shares and holds on to them will profit more than an [active trading](http://www.investopedia.com/active-trading/) strategy like what Bateman suggests, yes; and we will rack up lots of expenses from commissions that eat into our profits. But our trading strategy can also give us much more consistent profits on a day-to-day basis than buy-and-hold, even though buy-and-hold will outperform this strategy in the long term for some stocks.
 
 What's coming next?
 -------------------
 
-I need to look more into whether the assumptions the program makes about how it places its limit orders are actually realistic.
+I need to look more into whether the assumptions the program makes about how it places its market orders are actually realistic.
 
 I'd like to make the program more configurable and more easy to understand.
 
