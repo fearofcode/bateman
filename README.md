@@ -11,12 +11,12 @@ The strategy has its parameters refined by [particle swarm optimization](http://
 
 It's currently in an experimental phase and shows some promise, but more research is needed. See below for a sample run of it.
 
-Obviously, don't use this for trading real money. On the off chance you find this code interesting and would like to do something serious with it, contact me at [warren.henning@gmail.com](mailto:warren.henning@gmail.com).
+Obviously, don't use this for trading real money.
 
 Who are you?
 ------------
 
-My name is Warren Henning. I'm a 27 year old software developer living in Berkeley, California. I am currently available for work! Shoot me an email if you're interested.
+My name is Warren Henning. I'm a 27 year old software developer living in Berkeley, California.
 
 I don't have any professional experience in the finance or investment banking industries. I've never worked for a bank. This is just a hobby project I've wanted to do for a long time.
 
@@ -232,4 +232,4 @@ One interesting final thing to note is that a somewhat analogous version of this
 Thank you
 ---------
 
-Hopefully this long-winded README was helpful in understanding what this program does. [Email me](warren.henning@gmail.com) if you have any questions or want to hire me! :)
+Hopefully this long-winded README was helpful in understanding what this program does.
