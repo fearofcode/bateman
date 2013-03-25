@@ -37,7 +37,7 @@ public class GoogleQuoteFetcher implements QuoteFetcher {
     public List<Quote> parseQuotes(String quoteList, int interval) {
         final int dropLines = 6;
         
-        String[] lines = quoteList.split("\n");
+        String[] lines = quoteList.split(System.getProperty("line.separator"));
         
         lines = Arrays.copyOfRange(lines, dropLines, lines.length);
         
