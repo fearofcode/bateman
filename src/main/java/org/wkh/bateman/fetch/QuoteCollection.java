@@ -1,4 +1,4 @@
-package org.wkh.bateman.trade;
+package org.wkh.bateman.fetch;
 
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
@@ -13,6 +13,7 @@ import java.util.TreeMap;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.wkh.bateman.trade.TimeSeries;
 
 public class QuoteCollection {
     private static Logger logger = LoggerFactory.getLogger(QuoteCollection.class.getName()); 

@@ -200,8 +200,11 @@ Let's talk for a second about this strategy compared to [buy-and-hold](http://en
 Plotting the results
 --------------------
 
-See the file `sample_plotting_script.r` for an example of visualizing the stock data and the trade log together. Replace the runtime at the top of the with the ones Bateman puts in the output CSV file, then run it with [R](http://www.r-project.org/) like so:
+See the file `sample_plotting_script.r` in the `plot` directory for an example of visualizing the stock data and the trade log together. Replace the runtime at the top of the with the ones Bateman puts in the output CSV file, copy the CSV files into the plot directory, then run it with [R](http://www.r-project.org/) like so:
 
+    $ cp *.csv plot
+    $ cd plot
+    $ vi sample_plotting_script.r # edit the script here
     $ R CMD BATCH sample_plotting_script.r
 
 Sample CSVs are included in the project, so running this as is should work. You'll need the `chron` library, which you install with `install.packages("chron")`.

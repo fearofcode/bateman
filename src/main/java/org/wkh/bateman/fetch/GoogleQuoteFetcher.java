@@ -1,4 +1,4 @@
-package org.wkh.bateman.trade;
+package org.wkh.bateman.fetch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +9,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.joda.time.DateTime;
+import org.wkh.bateman.trade.TimeSeries;
 
 public class GoogleQuoteFetcher implements QuoteFetcher {
     @Override

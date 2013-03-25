@@ -1,5 +1,7 @@
-package org.wkh.bateman.trade;
+package org.wkh.bateman.fetch;
 
+import org.wkh.bateman.fetch.QuoteCollection;
+import org.wkh.bateman.fetch.Quote;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.TreeMap;
 import static junit.framework.Assert.assertEquals;
 import junit.framework.TestCase;
 import org.joda.time.DateTime;
+import org.wkh.bateman.trade.TimeSeries;
 
 public class QuoteCollectionTest extends TestCase {
     

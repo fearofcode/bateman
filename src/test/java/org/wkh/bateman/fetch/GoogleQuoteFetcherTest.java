@@ -1,7 +1,7 @@
-package org.wkh.bateman.trade;
+package org.wkh.bateman.fetch;
 
-import org.wkh.bateman.trade.Quote;
-import org.wkh.bateman.trade.GoogleQuoteFetcher;
+import org.wkh.bateman.fetch.Quote;
+import org.wkh.bateman.fetch.GoogleQuoteFetcher;
 import java.io.File;
 import java.util.List;
 import java.util.Scanner;

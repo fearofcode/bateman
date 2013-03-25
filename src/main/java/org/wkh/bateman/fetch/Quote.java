@@ -1,4 +1,4 @@
-package org.wkh.bateman.trade;
+package org.wkh.bateman.fetch;
 
 import org.joda.time.DateTime;
 

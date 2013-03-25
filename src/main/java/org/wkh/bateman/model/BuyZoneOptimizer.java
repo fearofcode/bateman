@@ -8,7 +8,7 @@ import org.wkh.bateman.trade.Account;
 import org.wkh.bateman.trade.Asset;
 import org.wkh.bateman.trade.Conditions;
 import org.wkh.bateman.trade.FixedPercentageAllocationStrategy;
-import org.wkh.bateman.trade.GoogleQuoteFetcher;
+import org.wkh.bateman.fetch.GoogleQuoteFetcher;
 import org.wkh.bateman.trade.MoneyManagementStrategy;
 import org.wkh.bateman.trade.Session;
 import org.wkh.bateman.trade.TimeSeries;
