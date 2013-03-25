@@ -21,8 +21,6 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <!--<addClasspath>true</addClasspath>
-                    <useDefaultManifestFile>true</useDefaultManifestFile>-->
                 </configuration>
             </plugin>
             
@@ -95,15 +93,6 @@
             <artifactId>commons-math</artifactId>
             <version>2.2</version>
         </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>1.1</version>
-        </dependency>
+        
     </dependencies>
 </project>
