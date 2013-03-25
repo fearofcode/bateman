@@ -19,7 +19,7 @@ public class GoogleQuoteFetcherTest extends TestCase {
         
         Scanner scan = new Scanner(new File(samplePath));  
         scan.useDelimiter("\\Z");  
-        String sampleResponse = scan.next(); 
+        String sampleResponse = scan.next().replaceAll("\r\n", "\n"); 
         
         GoogleQuoteFetcher fetcher = new GoogleQuoteFetcher();
         
