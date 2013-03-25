@@ -49,7 +49,7 @@ Hence, to somewhat alleviate the unreliability and anxiety associated with discr
 
 There have been a few cases of high-frequency trading systems gone awry to disastrous results; one such system at Knight Capital [racked up over US$400 million in losses in 30 minutes](http://dealbook.nytimes.com/2012/08/02/knight-capital-says-trading-mishap-cost-it-440-million/). Imagine being the first person at the firm to learn what had happened, and having to be the messenger of such horrible news. Yikes.
 
-To conclude these thoughts on algorithmic and high-frequency trading, it's clear that scrutiny and rigorous testing is crucial for success, as Knight Capital learned.
+To conclude these thoughts on algorithmic and high-frequency trading, it's clear that scrutiny and rigorous testing are crucial for success, as Knight Capital learned.
 
 On model complexity
 -------------------
