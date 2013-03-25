@@ -13,8 +13,10 @@ import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Session {
     private List<Trade> trades;
@@ -131,30 +133,67 @@ public class Session {
     }
     
     public void dumpTo(String directory, String description) throws Exception {
-        long now = System.currentTimeMillis();
-        String dataFilename = now + "_" + description + "_trades.csv";
+        if(trades.isEmpty()) {
+            return;
+        }
+        
+        DateTimeFormatter fileNameFmt = DateTimeFormat.forPattern("YMMddHmm");
+
+        String now = fileNameFmt.print(new DateTime());
+        String tradeFilename = description + "_trades_" + now + ".csv";
         String directoryStr = directory + (directory.endsWith("?") ? "" : "/");
-        String dataPath = directoryStr + dataFilename;
+        String tradePath = directoryStr + tradeFilename;
 
-        System.out.println("writing data to " + dataPath);
+        System.out.println("writing trades to " + tradePath);
 
-        BufferedWriter out = new BufferedWriter(new FileWriter(dataPath));
+        BufferedWriter out = new BufferedWriter(new FileWriter(tradePath));
 
-        out.write("Open,Close,OpenPrice,ClosePrice,Type,Size,OutlayCost,Profit,Balance\n");
+        out.write("OpenIndex,CloseIndex,Open,Close,OpenPrice,ClosePrice,Type,Size,OutlayCost,Profit,Balance\n");
 
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("Y-MM-dd H:mm");
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("Y-MM-dd H:mm:ss");
 
+        TimeSeries series = trades.get(0).getAsset().getTimeSeries();
+        
+        TreeMap<DateTime, BigDecimal> prices = series.getPrices();
+        
+        DateTime[] dates = new DateTime[prices.size()];
+        int pos = 0;
+        for (DateTime key : prices.keySet()) {
+            dates[pos++] = key;
+        }
+        
         for(Trade trade : trades) {
             String openStr = fmt.print(trade.getOpen());
             String closeStr = fmt.print(trade.getClose());
-
-            out.write(openStr + "," + closeStr + "," + printNum(trade.getAsset().priceAt(trade.getOpen())) + "," +
+            
+            int openIndex = Arrays.binarySearch(dates, trade.getOpen()) + 1;
+            int closeIndex = Arrays.binarySearch(dates, trade.getClose()) + 1;
+            
+            out.write(openIndex + "," + closeIndex + "," + openStr + "," + closeStr + "," + printNum(trade.getAsset().priceAt(trade.getOpen())) + "," +
                     printNum(trade.getAsset().priceAt(trade.getClose())) + "," + trade.getType() + "," + trade.getSize() + "," +
                     printNum(trade.getPurchasePrice()) + "," + printNum(trade.profit()) + "," + printNum(account.valueAtTime(trade.getClose())) + "\n");
         }
 
-        out.write("\n\n");
+        out.close();
+        
+        String seriesFilename = description + "_series_" + now + ".csv";
+        String seriesPath = directoryStr + seriesFilename;
 
+        System.out.println("writing series to " + seriesPath);
+
+        out = new BufferedWriter(new FileWriter(seriesPath));
+        
+        out.write("Date,Price\n");
+        
+        for(Map.Entry<DateTime, BigDecimal> entry : prices.entrySet()) {
+            DateTime date = entry.getKey();
+            BigDecimal tick = entry.getValue();
+            
+            String dateStr = fmt.print(date);
+            
+            out.write(dateStr + "," + printNum(tick) + "\n");
+        }
+        
         out.close();
     }
 }

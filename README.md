@@ -199,6 +199,27 @@ The optimizer will look for whatever maximizes our objective function. The simul
 
 Let's talk for a second about this strategy compared to [buy-and-hold](http://en.wikipedia.org/wiki/Buy_and_hold). Someone who buys shares and holds on to them will profit more than an [active trading](http://www.investopedia.com/active-trading/) strategy like what Bateman suggests, yes; and we will rack up lots of expenses from commissions that eat into our profits. But our trading strategy can also give us much more consistent profits on a day-to-day basis than buy-and-hold, even though buy-and-hold will outperform this strategy in the long term for some stocks.
 
+Plotting the results
+--------------------
+
+See the file `sample_plotting_script.r` for an example of visualizing the stock data and the trade log together. Replace the runtime at the top of the with the ones Bateman puts in the output CSV file, then run it with [R](http://www.r-project.org/) like so:
+
+    $ R CMD BATCH sample_plotting_script.r
+
+Sample CSVs are included in the project, so running this as is should work. You'll need the `chron` library, which you install with `install.packages("chron")`.
+
+See [http://i.imgur.com/HBoX2sG.png](http://i.imgur.com/HBoX2sG.png) for a full example of the rather large image the script currently produces; it is intentionally created to be quite wide, currently 5000px, so that you can see a long series of intraday data clearly. You'll of course need to scroll the image horizontally.
+
+A detail of the plot is shown below.
+
+![Detail of a plot of visualizing the trade log, showing two profitable trades](http://i.imgur.com/D2OD5xA.png)
+
+The time series is plotted as you would expect, and trades are then overlayed on that time series to show entries and exits. There's sideways text for each trade to give dates and the exact profit amounts, as well. These trades are profitable, so they're shown in green. Losing trades are shown in red.
+
+It's possible to get much more elaborate with visualizing and analyzing data like this, but this basically does the job well enough.
+
+If you haven't used R before, consider picking up an introductory book on it or try a [tutorial](http://www.nceas.ucsb.edu/files/scicomp/Dloads/RProgramming/BestFirstRTutorial.pdf).
+ 
 What's coming next?
 -------------------
 
@@ -206,7 +227,7 @@ I need to look more into whether the assumptions the program makes about how it 
 
 I'd like to make the program more configurable and more easy to understand.
 
-I'm planning to have nice, automated plotting of the trading log along with the data trained against with [R](http://www.r-project.org/) and [ggplot2](http://ggplot2.org/) in order to better visualize the simulated trades soon, but for now using existing facilities in Excel or R ad-hoc suffice.
+The facilities for analyzing and plotting trades with R could be more automated and better.
 
 One interesting final thing to note is that a somewhat analogous version of this system could be used for [forex](http://en.wikipedia.org/wiki/Foreign_exchange_market) trading!
  

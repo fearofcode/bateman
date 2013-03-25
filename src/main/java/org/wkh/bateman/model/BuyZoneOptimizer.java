@@ -72,7 +72,7 @@ public class BuyZoneOptimizer {
         
         final double minBuy = 0.1; // $0.10 minimum to buy
         final double minSell = 0.25; // $0.25 minimum to sell
-        final double maxBuy = 5.0; // $1.00 maximum to buy
+        final double maxBuy = 2.0; // $1.00 maximum to buy
         final double maxSell = 5.0; // $2.00 maximum to sell
         final double maxStop = 5.0; // $3.00 maximum stop loss
         
@@ -98,7 +98,7 @@ public class BuyZoneOptimizer {
         double stopLoss = bestOffsets[2];
 
         System.out.println("buyTrigger: " + buyTrigger);
-        System.out.println("sellTrigger; " + sellTrigger);
+        System.out.println("sellTrigger: " + sellTrigger);
         System.out.println("stopLoss: " + stopLoss);
 
         Asset asset = new Asset(symbol, series);
