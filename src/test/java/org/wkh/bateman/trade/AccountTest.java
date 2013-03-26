@@ -10,18 +10,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AccountTest extends TestCase {
+
     Account account;
 
     public AccountTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         account = new Account(new BigDecimal(100000), DateTime.now());
     }
-    
+
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
@@ -44,7 +45,6 @@ public class AccountTest extends TestCase {
         assertEquals(account.getCurrentAmount(), new BigDecimal(90000));
     }
 
-    
     public void testOverdraw() {
         boolean threw = false;
         try {
@@ -52,7 +52,7 @@ public class AccountTest extends TestCase {
         } catch (Exception ex) {
             threw = true;
         }
-        
+
         assertTrue(threw);
     }
 
@@ -61,7 +61,7 @@ public class AccountTest extends TestCase {
         account.lose(new BigDecimal(1), DateTime.now().plusSeconds(2));
         final Object[] actual = account.getEquityCurve().values().toArray();
         final Object[] expected = Arrays.asList(new BigDecimal[]{new BigDecimal(100000),
-                     new BigDecimal(100001), new BigDecimal(100000)}).toArray();
+            new BigDecimal(100001), new BigDecimal(100000)}).toArray();
 
         assertEquals(actual[0], expected[0]);
         assertEquals(actual[1], expected[1]);

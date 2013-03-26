@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import org.joda.time.DateTime;
 
 public class Quote {
+
     private DateTime openDate;
     private int interval;
     private BigDecimal open;
@@ -11,7 +12,7 @@ public class Quote {
     private BigDecimal low;
     private BigDecimal close;
     private int volume;
-    
+
     public Quote(DateTime openDate, int interval, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close, int volume) {
         this.openDate = openDate;
         this.interval = interval;
@@ -24,10 +25,10 @@ public class Quote {
 
     @Override
     public String toString() {
-        return "Date = " + openDate + ", OHLC = " + open + "/" + high + "/" + 
-                low + "/" + close + ", Volume = " + volume;
+        return "Date = " + openDate + ", OHLC = " + open + "/" + high + "/"
+                + low + "/" + close + ", Volume = " + volume;
     }
-    
+
     public DateTime getOpenDate() {
         return openDate;
     }

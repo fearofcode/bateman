@@ -3,12 +3,10 @@ package org.wkh.bateman.trade.util;
 import org.joda.time.DateTime;
 
 /**
- * User: warrenhenning
- * Date: 9/20/12
- * Time: 4:11 AM
+ * User: warrenhenning Date: 9/20/12 Time: 4:11 AM
  */
-
 public class IndicatorParameter {
+
     private DateTime time;
     private int period;
 
@@ -16,7 +14,6 @@ public class IndicatorParameter {
         this.time = time;
         this.period = period;
     }
-
 
     public DateTime getTime() {
         return time;
@@ -28,12 +25,18 @@ public class IndicatorParameter {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         IndicatorParameter that = (IndicatorParameter) o;
 
-        if (period != that.period) return false;
+        if (period != that.period) {
+            return false;
+        }
         return time.equals(that.time);
     }
 
@@ -43,7 +46,4 @@ public class IndicatorParameter {
         result = 31 * result + period;
         return result;
     }
-
-
-
 }

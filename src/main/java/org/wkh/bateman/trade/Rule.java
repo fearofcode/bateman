@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.SortedMap;
 
 public abstract class Rule {
+
     private Account account;
     private Asset asset;
     private Conditions conditions;
@@ -35,7 +36,9 @@ public abstract class Rule {
             boolean doBuy = buy(time, session);
             boolean doSell = sell(time, session);
             if (doBuy || doSell) {
-                if (!processSignal(session, time, doBuy, end)) break;
+                if (!processSignal(session, time, doBuy, end)) {
+                    break;
+                }
             }
         }
 
@@ -63,7 +66,9 @@ public abstract class Rule {
             }
         } else {
             /* Open a new trade at the current time in the indicated direction */
-            if (!makeSizedTrade(session, time, buy ? TradeType.LONG : TradeType.SHORT, end)) return false;
+            if (!makeSizedTrade(session, time, buy ? TradeType.LONG : TradeType.SHORT, end)) {
+                return false;
+            }
         }
 
         return true;
@@ -71,8 +76,9 @@ public abstract class Rule {
 
     private boolean makeSizedTrade(Session session, DateTime time, TradeType type, DateTime end) throws Exception {
         // not going to open a trade on the last day of the session
-        if(time.compareTo(end) >= 0)
+        if (time.compareTo(end) >= 0) {
             return false;
+        }
 
         int size = moneyManager.sizePosition(account, time);
 

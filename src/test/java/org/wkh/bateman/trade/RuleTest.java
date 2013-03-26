@@ -11,6 +11,7 @@ import static junit.framework.Assert.assertTrue;
 import junit.framework.TestCase;
 
 public class RuleTest extends TestCase {
+
     TreeMap<DateTime, BigDecimal> toyPrices;
     Account account;
     TimeSeries series;
@@ -22,7 +23,7 @@ public class RuleTest extends TestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        
+
         today = DateTime.now();
 
         toyPrices = new TreeMap<DateTime, BigDecimal>();
@@ -86,6 +87,7 @@ public class RuleTest extends TestCase {
     }
 
     private class BuySellNextDayRule extends Rule {
+
         public BuySellNextDayRule(Account account, Asset asset, Conditions conditions) {
             super(account, asset, conditions, moneyManager);
         }
@@ -103,6 +105,7 @@ public class RuleTest extends TestCase {
     }
 
     private class BuyAndHoldRule extends Rule {
+
         public BuyAndHoldRule(Account account, Asset asset, Conditions conditions) {
             super(account, asset, conditions, moneyManager);
         }
@@ -119,6 +122,7 @@ public class RuleTest extends TestCase {
     }
 
     private class NeverEnterMarketRule extends Rule {
+
         public NeverEnterMarketRule(Account account, Asset asset, Conditions conditions) {
             super(account, asset, conditions, moneyManager);
         }
@@ -135,6 +139,7 @@ public class RuleTest extends TestCase {
     }
 
     private class OnlyShortRule extends Rule {
+
         public OnlyShortRule(Account account, Asset asset, Conditions conditions) {
             super(account, asset, conditions, moneyManager);
         }

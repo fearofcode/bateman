@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class TimeSeries {
+
     private TreeMap<DateTime, BigDecimal> prices;
     private HashMap<IndicatorParameter, List<BigDecimal>> previousPriceCache;
     private HashMap<IndicatorParameter, BigDecimal> smaCache;
@@ -22,19 +23,19 @@ public class TimeSeries {
         this.maxCache = new HashMap<IndicatorParameter, BigDecimal>();
         this.minCache = new HashMap<IndicatorParameter, BigDecimal>();
     }
-    
+
     public BigDecimal openOnDay(DateTime date) {
         DateTime midnight = date.toDateMidnight().toDateTime();
         NavigableMap<DateTime, BigDecimal> previousPrices = prices.subMap(midnight, true, date, true);
         return previousPrices.firstEntry().getValue();
     }
-    
+
     public DateTime closeOnDay(DateTime date) {
         DateTime midnight = date.toDateMidnight().toDateTime();
         DateTime nextDay = midnight.plusDays(1);
         return prices.floorEntry(nextDay).getKey();
     }
-    
+
     public BigDecimal priceAt(DateTime date) {
         return prices.get(date);
     }
@@ -63,9 +64,7 @@ public class TimeSeries {
         DateTime first = beginningOfSeries();
         DateTime midnight = first.toDateMidnight().toDateTime();
         DateTime cutoff = midnight.plusDays(i);
-        
+
         prices = new TreeMap<DateTime, BigDecimal>(prices.tailMap(cutoff));
     }
-
 }
-

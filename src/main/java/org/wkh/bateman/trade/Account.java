@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.TreeMap;
 
 public class Account {
+
     private TreeMap<DateTime, BigDecimal> equityCurve;
     private BigDecimal currentAmount;
 
@@ -17,12 +18,12 @@ public class Account {
     }
 
     private void complainIfOverwriting(DateTime time) throws Exception {
-        if(equityCurve.containsKey(time)) {
+        if (equityCurve.containsKey(time)) {
             throw new Exception("Cannot overwrite an existing price: " + time);
         }
     }
 
-    public TreeMap<DateTime, BigDecimal>  getEquityCurve() {
+    public TreeMap<DateTime, BigDecimal> getEquityCurve() {
         return equityCurve;
     }
 

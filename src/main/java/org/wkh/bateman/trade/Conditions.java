@@ -3,6 +3,7 @@ package org.wkh.bateman.trade;
 import java.math.BigDecimal;
 
 public class Conditions {
+
     private BigDecimal commissions;
     private BigDecimal slippage;
 

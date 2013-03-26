@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Session {
+
     private List<Trade> trades;
     private Account account;
     private Conditions conditions;
@@ -36,19 +37,20 @@ public class Session {
     }
 
     public void addTrade(Trade trade) throws Exception {
-        if (trades.contains(trade))
+        if (trades.contains(trade)) {
             throw new Exception("Cannot add the same trade more than once");
-        else if (trades.size() > 0) {
-            if (lastTrade().isOpen() || lastTrade().getClose().compareTo(trade.getOpen()) > 0)
+        } else if (trades.size() > 0) {
+            if (lastTrade().isOpen() || lastTrade().getClose().compareTo(trade.getOpen()) > 0) {
                 throw new Exception("Trades cannot overlap and must be added in increasing chronological order");
+            }
         }
 
 
         trades.add(trade);
 
-        if (trade.isClosed())
+        if (trade.isClosed()) {
             tabulateClosedTrade(trade);
-        else if (trade.isOpen()) {
+        } else if (trade.isOpen()) {
             BigDecimal purchasePrice = trade.getPurchasePrice();
             DateTime time = trade.getOpen().plusSeconds(1);
             account.withdraw(purchasePrice, time);
@@ -77,15 +79,17 @@ public class Session {
     public BigDecimal grossProfit() throws Exception {
         BigDecimal sum = new BigDecimal(0);
 
-        for (Trade trade : trades)
+        for (Trade trade : trades) {
             sum = sum.add(trade.profit());
+        }
 
         return sum;
     }
 
     public double sharpeRatio() {
-        if(stats.getValues().length == 0)
+        if (stats.getValues().length == 0) {
             return 0.00001;
+        }
 
         double stdDev = stats.getStandardDeviation();
         return stats.getMean() / (stdDev == 0.0 ? 100.0 : stdDev);
@@ -115,9 +119,9 @@ public class Session {
     }
 
     public Trade tradeAt(final DateTime date) {
-        for(Trade trade : trades) {
+        for (Trade trade : trades) {
             Interval interval = new Interval(trade.getOpen(), trade.getClose());
-            if(interval.contains(date)) {
+            if (interval.contains(date)) {
                 return trade;
             }
         }
@@ -126,17 +130,16 @@ public class Session {
     }
 
     // TODO fuck this awful code
-
     public String printNum(BigDecimal num) {
         DecimalFormat myFormatter = new DecimalFormat(".##");
         return myFormatter.format(num.doubleValue());
     }
-    
+
     public void dumpTo(String directory, String description) throws Exception {
-        if(trades.isEmpty()) {
+        if (trades.isEmpty()) {
             return;
         }
-        
+
         DateTimeFormatter fileNameFmt = DateTimeFormat.forPattern("YMMddHmm");
 
         String now = fileNameFmt.print(new DateTime());
@@ -153,47 +156,47 @@ public class Session {
         DateTimeFormatter fmt = DateTimeFormat.forPattern("Y-MM-dd H:mm:ss");
 
         TimeSeries series = trades.get(0).getAsset().getTimeSeries();
-        
+
         TreeMap<DateTime, BigDecimal> prices = series.getPrices();
-        
+
         DateTime[] dates = new DateTime[prices.size()];
         int pos = 0;
         for (DateTime key : prices.keySet()) {
             dates[pos++] = key;
         }
-        
-        for(Trade trade : trades) {
+
+        for (Trade trade : trades) {
             String openStr = fmt.print(trade.getOpen());
             String closeStr = fmt.print(trade.getClose());
-            
+
             int openIndex = Arrays.binarySearch(dates, trade.getOpen()) + 1;
             int closeIndex = Arrays.binarySearch(dates, trade.getClose()) + 1;
-            
-            out.write(openIndex + "," + closeIndex + "," + openStr + "," + closeStr + "," + printNum(trade.getAsset().priceAt(trade.getOpen())) + "," +
-                    printNum(trade.getAsset().priceAt(trade.getClose())) + "," + trade.getType() + "," + trade.getSize() + "," +
-                    printNum(trade.getPurchasePrice()) + "," + printNum(trade.profit()) + "," + printNum(account.valueAtTime(trade.getClose())) + "\n");
+
+            out.write(openIndex + "," + closeIndex + "," + openStr + "," + closeStr + "," + printNum(trade.getAsset().priceAt(trade.getOpen())) + ","
+                    + printNum(trade.getAsset().priceAt(trade.getClose())) + "," + trade.getType() + "," + trade.getSize() + ","
+                    + printNum(trade.getPurchasePrice()) + "," + printNum(trade.profit()) + "," + printNum(account.valueAtTime(trade.getClose())) + "\n");
         }
 
         out.close();
-        
+
         String seriesFilename = description + "_series_" + now + ".csv";
         String seriesPath = directoryStr + seriesFilename;
 
         System.out.println("writing series to " + seriesPath);
 
         out = new BufferedWriter(new FileWriter(seriesPath));
-        
+
         out.write("Date,Price\n");
-        
-        for(Map.Entry<DateTime, BigDecimal> entry : prices.entrySet()) {
+
+        for (Map.Entry<DateTime, BigDecimal> entry : prices.entrySet()) {
             DateTime date = entry.getKey();
             BigDecimal tick = entry.getValue();
-            
+
             String dateStr = fmt.print(date);
-            
+
             out.write(dateStr + "," + printNum(tick) + "\n");
         }
-        
+
         out.close();
     }
 }

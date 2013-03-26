@@ -6,8 +6,8 @@ import org.joda.time.Interval;
 import java.math.BigDecimal;
 
 // TODO this doesn't support stop losses
-
 public class Trade {
+
     private Asset asset;
     private DateTime open;
     private DateTime close;
@@ -17,7 +17,6 @@ public class Trade {
     public TradeType getType() {
         return type;
     }
-
     private TradeType type;
 
     public Trade(Asset asset, DateTime open) throws Exception {
@@ -44,8 +43,9 @@ public class Trade {
             throw new Exception("Cannot place trades at dates for which no data exists");
         }
 
-        if (isClosed() && (open.compareTo(close) >= 0))
+        if (isClosed() && (open.compareTo(close) >= 0)) {
             throw new Exception("Open must come before close and existing for a non-zero amount of time");
+        }
     }
 
     public void setOpen(DateTime open) {
@@ -53,7 +53,7 @@ public class Trade {
     }
 
     public void setClose(DateTime close) throws Exception {
-        if(close.compareTo(open) <= 0) {
+        if (close.compareTo(open) <= 0) {
             throw new Exception("Trades must be closed after the open, not before or at the same instant");
         }
 
@@ -105,10 +105,10 @@ public class Trade {
     }
 
     // TODO this doesn't account for borrowing costs/interest when shorting
-    
     public BigDecimal profit() throws Exception {
-        if (isOpen())
+        if (isOpen()) {
             throw new Exception("Can't calculate profit/loss of an open trade");
+        }
 
         BigDecimal sellPrice = getSellPrice();
         BigDecimal purchasePrice = getPurchasePrice();

@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import static junit.framework.Assert.*;
 
 public class SessionTest extends TradeTest {
+
     Session session;
     TreeMap<DateTime, BigDecimal> toyPrices;
     Account account;
@@ -69,20 +70,20 @@ public class SessionTest extends TradeTest {
 
     public void testForbidDuplicateTrades() {
         boolean threw = false;
-        
+
         try {
             session.addTrade(trade);
             session.addTrade(trade);
         } catch (Exception ex) {
             threw = true;
         }
-        
+
         assertTrue(threw);
     }
 
     public void testForbidOverlappingTrades() throws Exception {
         boolean threw = false;
-        
+
         try {
             session = new Session(account, conditions);
 
@@ -94,13 +95,13 @@ public class SessionTest extends TradeTest {
         } catch (Exception ex) {
             threw = true;
         }
-        
+
         assertTrue(threw);
     }
 
     public void testWithdrawingAndDepositingWithOpenTrades() throws Exception {
         boolean threw = false;
-        
+
         account = new Account(new BigDecimal(100), openTrade.getOpen().minusDays(1));
         session = new Session(account, conditions);
 

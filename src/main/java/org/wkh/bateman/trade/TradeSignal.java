@@ -3,6 +3,7 @@ package org.wkh.bateman.trade;
 import org.joda.time.DateTime;
 
 public class TradeSignal {
+
     private TradeType type;
     private DateTime date;
 

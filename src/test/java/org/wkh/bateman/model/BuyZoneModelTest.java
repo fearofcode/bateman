@@ -15,6 +15,7 @@ import org.wkh.bateman.trade.TimeSeries;
 import org.wkh.bateman.trade.Trade;
 
 public class BuyZoneModelTest extends TestCase {
+
     TreeMap<DateTime, BigDecimal> toyPrices;
     Account account;
     TimeSeries series;
@@ -23,18 +24,16 @@ public class BuyZoneModelTest extends TestCase {
     Conditions conditions;
     MoneyManagementStrategy moneyManager;
     Session session;
-    
     double buyTrigger;
     double sellTrigger;
     double stopLoss;
-    
     BuyZoneModel instance;
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        
-        
+
+
         today = DateTime.now();
 
         toyPrices = new TreeMap<DateTime, BigDecimal>();
@@ -56,30 +55,30 @@ public class BuyZoneModelTest extends TestCase {
         buyTrigger = 0.25;
         sellTrigger = 1.0;
         stopLoss = 1.0;
-        
-        instance = new BuyZoneModel(account, asset, conditions, 
+
+        instance = new BuyZoneModel(account, asset, conditions,
                 moneyManager, buyTrigger, sellTrigger, stopLoss);
     }
-    
+
     public void testBuy() throws Exception {
         assertEquals(instance.buy(today, session), false);
         assertEquals(instance.buy(today.plusMinutes(1), session), true);
-        
+
         assertEquals(instance.buy(today.plusMinutes(2), session), true);
         session.addTrade(new Trade(asset, today.plusMinutes(1)));
         assertEquals(instance.buy(today.plusMinutes(2), session), false);
-        
+
     }
 
     public void testThresholdSell() throws Exception {
         assertEquals(instance.sell(today.plusMinutes(2), session), false);
-        
+
         session.addTrade(new Trade(asset, today.plusMinutes(1)));
-        
+
         assertEquals(instance.sell(today.plusMinutes(2), session), false);
         assertEquals(instance.sell(today.plusMinutes(3), session), true);
     }
-    
+
     public void testStopLossSell() throws Exception {
         toyPrices = new TreeMap<DateTime, BigDecimal>();
         toyPrices.put(today, new BigDecimal(10));
@@ -99,22 +98,23 @@ public class BuyZoneModelTest extends TestCase {
         buyTrigger = 0.4;
         sellTrigger = 1.0;
         stopLoss = 0.25;
-        
-        instance = new BuyZoneModel(account, asset, conditions, 
+
+        instance = new BuyZoneModel(account, asset, conditions,
                 moneyManager, buyTrigger, sellTrigger, stopLoss);
-        
+
         session.addTrade(new Trade(asset, today.plusMinutes(1)));
-        
+
         assertEquals(instance.sell(today.plusMinutes(1), session), false);
         assertEquals(instance.sell(today.plusMinutes(2), session), false);
         assertEquals(instance.sell(today.plusMinutes(3), session), true);
-        
+
     }
+
     public void testEndOfDaySell() throws Exception {
         sellTrigger = 1337.0;
-        instance = new BuyZoneModel(account, asset, conditions, 
+        instance = new BuyZoneModel(account, asset, conditions,
                 moneyManager, buyTrigger, sellTrigger, stopLoss);
-        
+
         session.addTrade(new Trade(asset, today.plusMinutes(1)));
         assertEquals(instance.sell(today.plusMinutes(3), session), true);
     }

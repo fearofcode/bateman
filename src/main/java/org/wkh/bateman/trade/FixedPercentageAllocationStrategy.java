@@ -7,6 +7,7 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 
 public class FixedPercentageAllocationStrategy implements MoneyManagementStrategy {
+
     private BigDecimal ratio;
     private Asset asset;
     private final MathContext mc = new MathContext(10, RoundingMode.DOWN);

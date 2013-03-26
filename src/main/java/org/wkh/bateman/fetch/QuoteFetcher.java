@@ -12,16 +12,17 @@ import org.apache.http.util.EntityUtils;
 import org.wkh.bateman.trade.TimeSeries;
 
 public abstract class QuoteFetcher {
+
     abstract String fetchQuotes(String symbol, int days, int interval) throws Exception;
 
-    abstract List<Quote> parseQuotes(String quoteList, int interval);    
-    
+    abstract List<Quote> parseQuotes(String quoteList, int interval);
+
     public TimeSeries fetchAndParse(String symbol, int days, int interval) throws Exception {
         String requestResult = fetchQuotes(symbol, days, interval);
         List<Quote> parsed = parseQuotes(requestResult, interval);
-        
+
         QuoteCollection qc = new QuoteCollection();
-        
+
         return qc.convertQuoteToTimeSeries(parsed);
     }
 

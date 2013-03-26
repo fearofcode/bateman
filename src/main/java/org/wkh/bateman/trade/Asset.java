@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import java.math.BigDecimal;
 
 public class Asset {
+
     private String symbol;
     private TimeSeries timeSeries;
 

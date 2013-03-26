@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import static junit.framework.Assert.*;
 
 public class TradeTest extends AssetTest {
+
     Trade trade;
     Trade openTrade;
     Trade multipleShareTrade;
@@ -19,13 +20,13 @@ public class TradeTest extends AssetTest {
 
     public void testDontAllowIncorrectDates() {
         boolean threw = false;
-        
+
         try {
             new Trade(asset, today, yesterday);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             threw = true;
         }
-        
+
         assertTrue(threw);
     }
 
@@ -39,13 +40,13 @@ public class TradeTest extends AssetTest {
 
     public void testCantPlaceTradeOnNonexistentData() {
         boolean threw = false;
-        
+
         try {
             new Trade(asset, today.minusDays(3), yesterday);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             threw = true;
         }
-        
+
         assertTrue(threw);
     }
 
@@ -71,21 +72,20 @@ public class TradeTest extends AssetTest {
 
     public void testCantCalculateProfitLossOnOpenTrade() {
         boolean threw = false;
-        
+
         try {
             openTrade.profit();
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             threw = true;
         }
-        
+
         assertTrue(threw);
-        
+
     }
 
     // TODO These tests currently assumed we are unleveraged. Do we want to change this?
     // TODO These tests assume prices can move continuously. Share prices may be discrete.
     // TODO These tests assume we always make market orders only.
-
     public void testComputingProfitLossWithoutCommissionsOrSlippage() throws Exception {
         assertEquals(trade.profit(), new BigDecimal(-2));
         multipleShareTrade.setConditions(Conditions.getZero());

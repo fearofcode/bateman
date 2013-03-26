@@ -24,16 +24,17 @@ import org.wkh.bateman.trade.Trade;
  * It is about the simplest "buy low, sell high model" one could think of.
  */
 public class BuyZoneModel extends Rule {
+
     private Asset asset;
     private BigDecimal stopLoss;
     private BigDecimal buyTrigger;
     private BigDecimal sellTrigger;
-    
-    public BuyZoneModel(Account account, Asset asset, Conditions conditions, 
-            MoneyManagementStrategy moneyManager, double buyTrigger, 
+
+    public BuyZoneModel(Account account, Asset asset, Conditions conditions,
+            MoneyManagementStrategy moneyManager, double buyTrigger,
             double sellTrigger, double stopLoss) {
         super(account, asset, conditions, moneyManager);
-    
+
         this.asset = asset;
         this.buyTrigger = new BigDecimal(buyTrigger);
         this.sellTrigger = new BigDecimal(sellTrigger);
@@ -42,48 +43,50 @@ public class BuyZoneModel extends Rule {
 
     @Override
     public boolean buy(DateTime time, Session session) {
-        if(session.inMarket(time))
+        if (session.inMarket(time)) {
             return false;
-        
+        }
+
         BigDecimal open = asset.getTimeSeries().openOnDay(time);
         BigDecimal current = asset.priceAt(time);
         BigDecimal increase = current.subtract(open);
-        
+
         final DateTime midnight = time.toDateMidnight().toDateTime();
         final DateTime nextDay = midnight.plusDays(1);
-        
+
         boolean tradedToday = (Collections2.filter(session.getTrades(), new Predicate<Trade>() {
             @Override
             public boolean apply(Trade trade) {
                 return trade.getOpen().compareTo(midnight) > 0 && trade.getClose().compareTo(nextDay) < 0;
             }
         })).size() > 0;
-        
+
         return !tradedToday && increase.compareTo(buyTrigger) >= 0;
     }
 
     @Override
-    public boolean sell(DateTime time, Session session) {        
-        if(!session.inMarket(time))
+    public boolean sell(DateTime time, Session session) {
+        if (!session.inMarket(time)) {
             return false;
-        
+        }
+
         BigDecimal open = asset.getTimeSeries().openOnDay(time);
         DateTime buyDate = session.lastTrade().getOpen();
         BigDecimal buyPrice = asset.priceAt(buyDate);
         BigDecimal current = asset.priceAt(time);
         BigDecimal difference = current.subtract(buyPrice);
-        
+
         // exit if at end of day, if our sell trigger threshold is reached,
         // or if we hit our stop loss
-        
+
         DateTime endOfDay = asset.getTimeSeries().closeOnDay(time);
-        
+
         boolean atEndOfDay = time.compareTo(endOfDay) >= 0;
-        
+
         boolean thresholdReached = difference.compareTo(sellTrigger) >= 0;
-        
+
         boolean stopLossReached = buyPrice.subtract(current).compareTo(stopLoss) >= 0;
-        
+
         return atEndOfDay || thresholdReached || stopLossReached;
     }
 }
