@@ -1,5 +1,6 @@
 package org.wkh.bateman.fetch;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,10 +68,10 @@ public class GoogleQuoteFetcher implements QuoteFetcher {
             
             Quote quote = new Quote(date, 
                     interval, 
-                    Double.parseDouble(parts[4]), 
-                    Double.parseDouble(parts[2]), 
-                    Double.parseDouble(parts[3]), 
-                    Double.parseDouble(parts[1]), 
+                    new BigDecimal(parts[4]), 
+                    new BigDecimal(parts[2]), 
+                    new BigDecimal(parts[3]), 
+                    new BigDecimal(parts[1]), 
                     Integer.parseInt(parts[5]));
             
             quotes.add(quote);

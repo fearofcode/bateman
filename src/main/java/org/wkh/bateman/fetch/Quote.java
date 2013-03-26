@@ -1,17 +1,18 @@
 package org.wkh.bateman.fetch;
 
+import java.math.BigDecimal;
 import org.joda.time.DateTime;
 
 public class Quote {
     private DateTime openDate;
     private int interval;
-    private double open;
-    private double high;
-    private double low;
-    private double close;
+    private BigDecimal open;
+    private BigDecimal high;
+    private BigDecimal low;
+    private BigDecimal close;
     private int volume;
     
-    public Quote(DateTime openDate, int interval, double open, double high, double low, double close, int volume) {
+    public Quote(DateTime openDate, int interval, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close, int volume) {
         this.openDate = openDate;
         this.interval = interval;
         this.open = open;
@@ -35,19 +36,19 @@ public class Quote {
         return interval;
     }
 
-    public double getOpen() {
+    public BigDecimal getOpen() {
         return open;
     }
 
-    public double getHigh() {
+    public BigDecimal getHigh() {
         return high;
     }
 
-    public double getLow() {
+    public BigDecimal getLow() {
         return low;
     }
 
-    public double getClose() {
+    public BigDecimal getClose() {
         return close;
     }
 

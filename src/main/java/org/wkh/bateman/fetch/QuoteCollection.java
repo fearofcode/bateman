@@ -5,7 +5,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -34,7 +33,7 @@ public class QuoteCollection {
         
         for(Quote quote : quotes)
         {
-            prices.put(quote.getOpenDate(), new BigDecimal(quote.getOpen()));
+            prices.put(quote.getOpenDate(), quote.getOpen());
         }
         
         return series;

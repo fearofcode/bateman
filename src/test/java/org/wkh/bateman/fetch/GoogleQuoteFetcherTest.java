@@ -1,8 +1,7 @@
 package org.wkh.bateman.fetch;
 
-import org.wkh.bateman.fetch.Quote;
-import org.wkh.bateman.fetch.GoogleQuoteFetcher;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 import static junit.framework.Assert.assertEquals;
@@ -26,10 +25,10 @@ public class GoogleQuoteFetcherTest extends TestCase {
         List<Quote> quotes = fetcher.parseQuotes(sampleResponse, 60);
         
         Quote firstQuote = quotes.get(0);
-        assertEquals(firstQuote.getOpen(), 444.05);
-        assertEquals(firstQuote.getHigh(), 444.19);
-        assertEquals(firstQuote.getLow(), 443.8);
-        assertEquals(firstQuote.getClose(), 443.8);
+        assertEquals(firstQuote.getOpen(), new BigDecimal("444.05"));
+        assertEquals(firstQuote.getHigh(), new BigDecimal("444.19"));
+        assertEquals(firstQuote.getLow(), new BigDecimal("443.8"));
+        assertEquals(firstQuote.getClose(), new BigDecimal("443.8"));
         assertEquals(firstQuote.getVolume(), 78179);
         assertEquals(firstQuote.getOpenDate().getMillis(), 1362061800000L);
         
