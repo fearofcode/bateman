@@ -24,7 +24,7 @@ public class YahooQuoteFetcher extends QuoteFetcher {
     }
 
     @Override
-    String fetchQuotes(String symbol, int days, int interval) throws Exception {
+    public String fetchQuotes(String symbol, int days, int interval) throws Exception {
         String period;
 
         switch (interval) {
@@ -56,7 +56,7 @@ public class YahooQuoteFetcher extends QuoteFetcher {
     }
 
     @Override
-    List<Quote> parseQuotes(String quoteList, int interval) {
+    public List<Quote> parseQuotes(String quoteList, int interval) {
         List<Quote> quotes = new ArrayList<Quote>();
 
         String[] lines = dropLines(quoteList, 1);

@@ -1,7 +1,12 @@
 package org.wkh.bateman.model;
 
 import java.math.BigDecimal;
+import java.util.List;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.wkh.bateman.fetch.Quote;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wkh.bateman.pso.FitnessFunction;
 import org.wkh.bateman.pso.SimpleParticleSwarmOptimizer;
 import org.wkh.bateman.trade.Account;
@@ -9,11 +14,13 @@ import org.wkh.bateman.trade.Asset;
 import org.wkh.bateman.trade.Conditions;
 import org.wkh.bateman.trade.FixedPercentageAllocationStrategy;
 import org.wkh.bateman.fetch.GoogleQuoteFetcher;
+import org.wkh.bateman.fetch.YahooQuoteFetcher;
 import org.wkh.bateman.trade.MoneyManagementStrategy;
 import org.wkh.bateman.trade.Session;
 import org.wkh.bateman.trade.TimeSeries;
 
-/* This is the heart of the project: 
+/*
+ * This is the heart of the project: 
  * 
  *   Use PSO to find optimal buy and sell triggers for a BuyZoneModel.
  * 
@@ -21,10 +28,11 @@ import org.wkh.bateman.trade.TimeSeries;
  *  
  */
 public class BuyZoneOptimizer {
-
+    private static Logger logger = LoggerFactory.getLogger(SimpleParticleSwarmOptimizer.class.getName());
+    
     public static double[] optimizeTriggers(final TimeSeries series, final String symbol, final int days,
-            double commissions, final double slippage, final int initialBalance, final double allocation, final double maxPercentage,
-            final double minBuy, final double minSell, final double maxBuy,
+            double commissions, final double slippage, final int initialBalance, final double allocation,
+            final double minBuy, final double minSell, final double minStop, final double maxBuy,
             final double maxSell, final double maxStop, final int generations) throws Exception {
 
         final Asset asset = new Asset(symbol, series);
@@ -65,41 +73,70 @@ public class BuyZoneOptimizer {
         return optimizer.learn();
     }
 
+    public static double getMedianHighOpenSpread(String symbol, int days) throws Exception {
+        YahooQuoteFetcher yahooFetcher = new YahooQuoteFetcher();
+        String quoteStr = yahooFetcher.fetchQuotes(symbol, days, 60*60*24);
+        List<Quote> dailyQuoteList = yahooFetcher.parseQuotes(quoteStr, 60*60*24);
+        
+        DescriptiveStatistics stats = new DescriptiveStatistics();
+        
+        for(Quote quote : dailyQuoteList) {
+            stats.addValue(quote.getHigh().subtract(quote.getOpen()).doubleValue());
+        }
+        
+        return stats.getPercentile(50);
+    }
+    
     public static void main(String[] args) throws Exception {
 
         int days = 30;
-        String symbol = "AAPL";
+        String symbol = args.length > 0 ? args[0] : "AAPL"; // default to AAPL if nothing provided
+        
+        logger.info("Fetching data for symbol " + symbol);
+        
+        double yearlyMedianDailyIncrease = getMedianHighOpenSpread(symbol, 365);
+        
+        GoogleQuoteFetcher fetcher = new GoogleQuoteFetcher();
 
-        final double minBuy = 0.1; // $0.10 minimum to buy
-        final double minSell = 0.25; // $0.25 minimum to sell
-        final double maxBuy = 2.0; // $1.00 maximum to buy
-        final double maxSell = 5.0; // $2.00 maximum to sell
-        final double maxStop = 5.0; // $3.00 maximum stop loss
+        TimeSeries series = fetcher.fetchAndParse(symbol, days, 60); // one minute
+        BigDecimal firstPrice = series.getPrices().firstEntry().getValue();
+        
+        BigDecimal lastBidAskSpread = new YahooQuoteFetcher().fetchBidAskSpread(symbol);
+        
+        final double minBuy = 0; // allow buying at open price
+        final double minSell = firstPrice.multiply(new BigDecimal("0.002")).doubleValue(); // 0.2% of first price to sell (which is hopefully on the order of twice the bid-ask spread)
+        final double minStop = minSell;
+        final double maxBuy = yearlyMedianDailyIncrease;
+        final double maxSell = yearlyMedianDailyIncrease;
+        final double maxStop = yearlyMedianDailyIncrease;
 
+        logger.info("Minimum buy:" + minBuy);
+        logger.info("Minimum sell: " + minSell);
+        logger.info("Minimum stop: " + minStop);
+        logger.info("Max buy: " + maxBuy);
+        logger.info("Max sell: " + maxSell);
+        logger.info("Max stop: " + maxStop);
+        
         final double commission = 10.0; // $10.00 a trade
-        final double slippage = 1.0E-4; // 0.01% mean slippage
+        final double slippage = 1.0E-3; // 0.1% mean slippage on each side of a trade, which should also account for bid-ask spread
         final int initialBalance = 100000; // $100,000 to start with
         final double accountAllocation = 0.75; // risk 75% of capital
-        final double maxPercentage = 0.005; // restrict parameters to 0.5% of the opening price on first day's data
         final int generations = 100; // generations to train for
 
         DateTime today = DateTime.now();
 
-        GoogleQuoteFetcher fetcher = new GoogleQuoteFetcher();
-
-        TimeSeries series = fetcher.fetchAndParse(symbol, days, 60); // one minute
 
         double[] bestOffsets = optimizeTriggers(series, symbol, days, commission,
-                slippage, initialBalance, accountAllocation, maxPercentage, minBuy,
-                minSell, maxBuy, maxSell, maxStop, generations);
+                slippage, initialBalance, accountAllocation, minBuy,
+                minSell, minStop, maxBuy, maxSell, maxStop, generations);
 
         double buyTrigger = bestOffsets[0];
         double sellTrigger = bestOffsets[1];
         double stopLoss = bestOffsets[2];
 
-        System.out.println("buyTrigger: " + buyTrigger);
-        System.out.println("sellTrigger: " + sellTrigger);
-        System.out.println("stopLoss: " + stopLoss);
+        System.out.println("\n\nBuy trigger: " + buyTrigger);
+        System.out.println("Sell trigger: " + sellTrigger);
+        System.out.println("Stop loss: " + stopLoss);
 
         Asset asset = new Asset(symbol, series);
 

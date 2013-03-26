@@ -105,7 +105,17 @@ Notice how this is systematic, quantitative, and could be automatically executed
 
 How many shares do we buy? The model I use is to just take a fixed percentage of our capital and buy as many shares as we can buy on that. Currently I'm using 75% of available capital in the executable example described below, which I think would be considered pretty high, but Bateman is long-only and sets fairly tight stop losses. So I think the choice is reasonable.
 
-Currently, it does backtesting with a simulated starting amount of US$100,000 and what should be reasonable assumptions about trading costs: US$10 commissions one way for trading, slippage of 0.01%. These aren't currently user-configurable. It simulates placing a (long-only) [market order](http://www.investopedia.com/terms/m/marketorder.asp) (as opposed to a [limit order](http://www.investopedia.com/terms/l/limitorder.asp)) that it assumes it pretty much gets right where it buys at -- it assumes orders are placed fast enough to be considered immediate for the purposes of a simulation, at a price with small enough slippage to be quite small. It also assumes the spread between the bid and ask is small enough to be reasonably accounted for with the commissions and slippage calculation that is applied to every trade. Currently, trailing stop losses are not supported. It will also only trade once a day. It keeps trades of a fixed size, not changing them or undertaking new trades until the current trade has been closed.
+What range should we restrict our model parameters to? That's a matter of preference. I'll choose the following:
+
+* Set minimum buy trigger to 0, allowing buying at open price
+* Set minimum stop loss and sell trigger to 0.2% of the first opening price, which we'll use as a kind of proxy of the historical bid-ask spread
+* Set maximum buy trigger, sell trigger, and stop loss to the median difference between open price and high for the last year, so that we can estimate triggers that are reasonably in line with historical data
+
+To get the median figure referred to above, we download daily end-of-day data for the last year from Yahoo! Finance. See `YahooQuoteFetcher`.
+
+Our choice of ranges will influence the outcomes we get. See `BuyZoneOptimizer` for how all of this comes together and tinker around with it if you want to change the ranges. 
+
+Currently, it does backtesting with a simulated starting amount of US$100,000 and what should be reasonable assumptions about trading costs: US$10 commissions one way for trading, slippage of 0.01%. These aren't currently user-configurable, other than the symbol to work with. It simulates placing a (long-only) [market order](http://www.investopedia.com/terms/m/marketorder.asp) (as opposed to a [limit order](http://www.investopedia.com/terms/l/limitorder.asp)) that it assumes it pretty much gets right where it buys at -- it assumes orders are placed fast enough to be considered immediate for the purposes of a simulation, at a price with small enough slippage to be quite small. It also assumes the spread between the bid and ask is small enough to be reasonably accounted for with the commissions and slippage calculation that is applied to every trade. Currently, trailing stop losses are not supported. It will also only trade once a day. It keeps trades of a fixed size, not changing them or undertaking new trades until the current trade has been closed.
 
 Hopefully the assumptions implemented here are reasonable enough to be useful for simulating the performance of a trading rule.
 

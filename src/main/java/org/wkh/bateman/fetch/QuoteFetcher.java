@@ -13,9 +13,9 @@ import org.wkh.bateman.trade.TimeSeries;
 
 public abstract class QuoteFetcher {
 
-    abstract String fetchQuotes(String symbol, int days, int interval) throws Exception;
+    abstract public String fetchQuotes(String symbol, int days, int interval) throws Exception;
 
-    abstract List<Quote> parseQuotes(String quoteList, int interval);
+    abstract public List<Quote> parseQuotes(String quoteList, int interval);
 
     public TimeSeries fetchAndParse(String symbol, int days, int interval) throws Exception {
         String requestResult = fetchQuotes(symbol, days, interval);

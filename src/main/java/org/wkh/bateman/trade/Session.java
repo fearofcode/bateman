@@ -2,7 +2,7 @@ package org.wkh.bateman.trade;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
-import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
@@ -24,10 +24,10 @@ public class Session {
     private Account account;
     private Conditions conditions;
     private List<BigDecimal> profitCurve;
-    private DescriptiveStatistics stats;
+    private SummaryStatistics stats;
 
     public Session(Account account, final Conditions conditions) {
-        stats = new DescriptiveStatistics();
+        stats = new SummaryStatistics();
 
         profitCurve = new ArrayList<BigDecimal>();
 
@@ -87,7 +87,7 @@ public class Session {
     }
 
     public double sharpeRatio() {
-        if (stats.getValues().length == 0) {
+        if (stats.getN() == 0) {
             return 0.00001;
         }
 
