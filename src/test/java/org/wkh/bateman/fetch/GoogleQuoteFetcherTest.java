@@ -8,13 +8,8 @@ import static junit.framework.Assert.assertEquals;
 import junit.framework.TestCase;
 
 public class GoogleQuoteFetcherTest extends TestCase {
-    
-    public GoogleQuoteFetcherTest(String testName) {
-        super(testName);
-    }
-    
     public void testParseQuotes() throws Exception {
-        String samplePath = "src/main/resources/sample_response.txt";
+        String samplePath = "src/main/resources/sample_google_response.csv";
         
         Scanner scan = new Scanner(new File(samplePath));  
         scan.useDelimiter("\\Z");  

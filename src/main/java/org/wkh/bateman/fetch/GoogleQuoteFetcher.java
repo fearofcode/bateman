@@ -1,18 +1,19 @@
 package org.wkh.bateman.fetch;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.joda.time.DateTime;
-import org.wkh.bateman.trade.TimeSeries;
 
-public class GoogleQuoteFetcher implements QuoteFetcher {
+public class GoogleQuoteFetcher extends QuoteFetcher {
     @Override
     public String fetchQuotes(String symbol, int days, int interval) 
             throws Exception {
@@ -20,28 +21,12 @@ public class GoogleQuoteFetcher implements QuoteFetcher {
         String url = "http://www.google.com/finance/getprices?i=" + interval + 
                 "&p=" + days + "d&f=d,o,h,l,c,v&df=cpct&q=" + symbol;
         
-        DefaultHttpClient httpclient = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(url);
-
-        HttpResponse response = httpclient.execute(httpGet);
-
-        HttpEntity entity = response.getEntity();
-        
-        String body = EntityUtils.toString(entity);
-        EntityUtils.consume(entity);
-    
-        httpGet.releaseConnection();
-        
-        return body;
+        return fetchURLasString(url);
     }
     
     @Override
     public List<Quote> parseQuotes(String quoteList, int interval) {
-        final int dropLines = 6;
-        
-        String[] lines = quoteList.split("\n");
-        
-        lines = Arrays.copyOfRange(lines, dropLines, lines.length);
+        String[] lines = dropLines(quoteList, 6);
         
         List<Quote> quotes = new ArrayList<Quote>();
         
@@ -78,14 +63,5 @@ public class GoogleQuoteFetcher implements QuoteFetcher {
         }
         
         return quotes;
-    }
-    
-    public TimeSeries fetchAndParse(String symbol, int days, int interval) throws Exception {
-        String requestResult = fetchQuotes(symbol, days, interval);
-        List<Quote> parsed = parseQuotes(requestResult, interval);
-        
-        QuoteCollection qc = new QuoteCollection();
-        
-        return qc.convertQuoteToTimeSeries(parsed);
     }
 }
