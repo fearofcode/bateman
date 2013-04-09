@@ -71,9 +71,11 @@ They also include optimization facilities for finding numerical parameters to tr
 
 Probably the easiest way to go in general would be to use [Quantopian](http://www.quantopian.com), which lets you build and test trading systems right in your browser.
 
-Unfortunately, I think all of those existing tools are inadequate because they're proprietary blackboxes that can't really be changed. The vendors never give any specific details of what *kind* of genetic algorithms are in their software, for instance; if you wanted to use a more sophisticated variant, you might not even be able to due to the scripting language's lack of support for data structures, references/pointers, or whatever.
+Most of these tools are inadequate because they don't give you the low-level control you need. Quantopian gives you access to libraries like [numpy](http://www.numpy.org/), so that may very well be your best option if you don't roll your own from scratch.
 
-It's basically a pile of proprietary horseshit, for the most part, which is why I decided to write my own from scratch. Of course, for any flaws MetaTrader and the like have, they're way better than Excel being used for something it most definitely wasn't designed for.
+I need to call a backtrading system in a loop and have it run as fast as possible. In other words, I can't see how to implement Bateman in terms of low-level linear algebra that can be called from Numpy.
+
+So, we're stuck with a general-purpose language like Java.
 
 Finally, I'd like to comment on the choice of optimization algorithm. I decided to use [particle swarm optimization](http://en.wikipedia.org/wiki/Particle_swarm_optimization) rather than genetic algorithms because PSO can often be better for continuous optimization tasks, whereas genetic algorithms seem, to me, more suited for discrete/combinatorial tasks like scheduling and routing.
 
