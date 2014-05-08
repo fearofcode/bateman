@@ -3,20 +3,20 @@ Bateman
 
 ![Everything failed to subdue me. Soon everything seemed dull: another sunrise, the lives of heroes, falling in love, war, the discoveries people made about each other.](http://media.tumblr.com/tumblr_lmvx4uwp0h1qeqv7k.gif)
 
-Bateman is an in-progress trading system meant to screen a subset of the US equities markets and tests out how well a simple [long](http://www.investopedia.com/terms/l/long.asp)-only trading strategy described below will work.
+Bateman is a very simple trading system meant to screen a subset of the US equities markets and tests out how well a simple [long](http://www.investopedia.com/terms/l/long.asp)-only trading strategy described below will work.
 
 It's based off the observation that many symbols display sufficient daily volatility that their high will generally be significantly above their open, regardless of their price at the close of trading.
 
 The strategy has its parameters refined by [particle swarm optimization](http://en.wikipedia.org/wiki/Particle_swarm_optimization), a simple continuous optimization algorithm, so that you don't have to figure out the parameters for each stock you're interested in by hand.
 
-It's currently in an experimental phase and shows some promise, but more research is needed. See below for a sample run of it.
+I never really got around to making this robust, but would like to come back to it someday soon. See below for a sample run of it.
 
 Obviously, don't use this for trading real money.
 
 Who are you?
 ------------
 
-My name is Warren Henning. I'm a 27 year old software developer living in Berkeley, California.
+My name is Warren Henning. I'm a 29 year old software developer living in Berkeley, California.
 
 I don't have any professional experience in the finance or investment banking industries. I've never worked for a bank. This is just a hobby project I've wanted to do for a long time.
 
@@ -37,13 +37,13 @@ has been practiced by hedge funds and Wall Street firms for quite a while now. S
 
 Note that "algorithmic trading" should be distinguished from ["high-frequency trading"](http://en.wikipedia.org/wiki/High-frequency_trading), which is what has become the real focus of the quants and hedge fund rocket scientists nowadays. Bateman is not a high-frequency trading app; in fact, it simulates placing trades only once a day. Compared to the crazy shit Wall Street is doing now, Bateman is, I would think, old hat. From what I know, Wall Street has shifted its focus from discretionary proprietary trading to market-making, statistical arbitrage, and high-frequency trading operations. We're living in a crazy world, and depending on who you ask, [high-frequency trading definitely has its dark side](http://www.zerohedge.com/news/2012-12-15/high-frequency-trading-broken-market-primer-two-parts). I have nothing to do with that.
 
-I'll also emphasize again that I'm not a trader and, while I am a professional programmer, I've never worked on the infrastructure that powers the new HFT systems.
+I'll also emphasize again that I'm not a trader and, while I am a professional programmer, I've never worked on any trading infrastructure code.
 
 Additionally, Bateman isn't really a fully algorithmic trading app, since it doesn't actually place trades itself; it just tries to find numbers that would allow a human trader to trade successfully. So it enables "systematic trading", where a program emits outputs that suggest a rigid, objective course of action that the human trader is then supposed to follow. Many people are unable to follow through with this and generally lose money as a result. So, Bateman has nothing for talking to brokers or actually making trades itself. If you wanted to use the results of a program like this, you'd have to do that by hand.
 
-Prior to the rise of ubiquitous high-performance computers, trading was done in what is now often called, by contrast, a [discretionary](http://blog.nobletrading.com/2009/12/what-is-discretionary-trading.html) fashion, with traders generally trying to combine macroeconomic and fundamental financial information (["fundamental analysis"](http://en.wikipedia.org/wiki/Fundamental_analysis); think Warren Buffett) with [technical analysis](http://en.wikipedia.org/wiki/Technical_analysis)/charting (think voodoo snake oil, in my opinion) to figure out what to trade or invest in. It's generally agreed that due to the [psychological factors involved in trading](http://economix.blogs.nytimes.com/2011/02/17/forecasting-is-for-the-birds-and-rats/), humans are less skilled at executing trades than pre-configured trading systems. This is due to factors like second-guessing, over-thinking, being indecisive or changing one's mind, etc., almost always to one's own detriment. This compliments recent psychological studies about the flawed nature of memory and the human mind.
+Prior to the rise of ubiquitous high-performance computers, trading was done in what is now often called, by contrast, a [discretionary](http://blog.nobletrading.com/2009/12/what-is-discretionary-trading.html) fashion, with traders generally trying to combine macroeconomic and fundamental financial information (["fundamental analysis"](http://en.wikipedia.org/wiki/Fundamental_analysis); think Warren Buffett) with [technical analysis](http://en.wikipedia.org/wiki/Technical_analysis)/charting to figure out what to trade or invest in. It's generally agreed that due to the [psychological factors involved in trading](http://economix.blogs.nytimes.com/2011/02/17/forecasting-is-for-the-birds-and-rats/), humans are less skilled at executing trades than pre-configured trading systems. This is due to factors like second-guessing, over-thinking, being indecisive or changing one's mind, etc., almost always to one's own detriment. This compliments recent psychological studies about the flawed nature of memory and the human mind.
 
-If you haven't ever tried to trade and haven't experienced this psychological aspect, I suggest getting a [free paper trading account](http://www.oanda.com/) that lets you do simulated trading without actually giving anyone any financial information or money and actually trying it for yourself. If you're like most people, you'll have a hard time waiting for the results of a trade to play out and want to basically dick around. Paper trading has a certain stress to it, even when no real money is changing hands -- now imagine if it was cash you had busted your ass to save and you were going to try to live the dream and "trade for a living". Most people fail, badly.
+If you haven't ever tried to trade and haven't experienced this psychological aspect, I suggest getting a [free paper trading account](http://www.oanda.com/) that lets you do simulated trading without actually giving anyone any financial information or money and actually trying it for yourself. If you're like most people, you'll have a hard time waiting for the results of a trade to play out and want to basically dick around. Paper trading has a certain stress to it, even when no real money is changing hands -- now imagine if it was cash you had busted your ass to save and you were going to try to live the dream and "trade for a living". Most people fail, badly. There is almost certain no reason to believe you or I are any better or different. Most "successful traders" who appear to be beating the market are just lucky.
  
 Hence, to somewhat alleviate the unreliability and anxiety associated with discretionary trading, traders look for rigorous, quantitative "trading systems" that enable "systematic trading" if used and followed properly. If the program makes trades automatically without human intervention, this removes the obligation to follow the decisions made by the system everytime, as well, and the psychological aspects of the system are largely removed; all that then remains for such an algorithmic trading system is to monitor it to ensure it's working as intended.
 
@@ -58,7 +58,7 @@ Any time you build a system with parameters that get "learned" or "optimized" wi
 
 Bateman is intended to have good "generalization" and future performance by being limited in its assumptions. Bateman's assumption is that some stocks go up a little sometimes. A plot of a "Bateman model" consists of a couple of horizontal lines, nothing more.
 
-Compared to the [moving averages](http://en.wikipedia.org/wiki/Moving_average) and other [indicators](http://www.investopedia.com/terms/t/technicalindicator.asp) many traders use, this is very simple: wait for the stock to go up a little bit, buy, wait for it to go up a little more, sell, then do it again the next day. This can be carried out through a [limit order](http://www.investopedia.com/terms/l/limitorder.asp) with pre-determined profit targets and [stop losses](http://www.investopedia.com/terms/s/stop-lossorder.asp), and a model like that is perfect for someone who isn't a professional trader. If it no longer goes up during the day the way it used to, stop trading that stock and look for another one. If no stocks display this volatility property regularly enough, don't use the system. Simple as that.
+Compared to the [moving averages](http://en.wikipedia.org/wiki/Moving_average) and other [indicators](http://www.investopedia.com/terms/t/technicalindicator.asp) many traders use, this is very simple: wait for the stock to go up a little bit (to get some evidence that it won't just go straight down that day), buy, wait for it to go up a little more, sell, then do it again the next day. This can be carried out through a [limit order](http://www.investopedia.com/terms/l/limitorder.asp) with pre-determined profit targets and [stop losses](http://www.investopedia.com/terms/s/stop-lossorder.asp), and a model like that is perfect for someone who isn't a professional trader. If it no longer goes up during the day the way it used to, stop trading that stock and look for another one. If no stocks display this volatility property regularly enough, don't use the system. Simple as that.
 
 But, you might be asking yourself, isn't computer AI kind of lousy at complex tasks like this? Well, as imperfect as computers are at complex decision-making tasks, their systematic nature gives them a certain edge versus humans in financial markets. As simple as a small set of numerical parameters to guide trades is, therein lies its strength: the assumptions behind Bateman are minimal, and not meant to be universally applicable; it's instead intended to be used on stocks that have in the past displayed a specific property on a frequent basis. It's well-known in machine learning that models with too many parameters or of too great complexity that are tested on historical data wind up being overtrained to that data, and effectively just memorizing it, with the consequence that they do poorly on future, unforeseen data. This, unfortunately, is why it's not generally practical or effective to build huge models that handle every conceivable scenario and do lots of stuff.
 
@@ -238,7 +238,7 @@ What's coming next?
 
 I need to look more into whether the assumptions the program makes about how it places its market orders are actually realistic.
 
-I'd like to make the program more configurable and more easy to understand.
+I'd like to make the program more configurable and more easy to understand. A web frontend would be nice.
 
 The facilities for analyzing and plotting trades with R could be more automated and better.
 
