@@ -54,7 +54,7 @@ To conclude these thoughts on algorithmic and high-frequency trading, it's clear
 On model complexity
 -------------------
 
-Any time you build a system with parameters that get "learned" or "optimized" with some kind of underlying assumption behind it, you're basically building a statistical model. Other financial models often have much stronger assumptions than Bateman's, such as a normal distribution of returns or [mean reversion](http://en.wikipedia.org/wiki/Mean_reversion_(finance).
+Any time you build a system with parameters that get "learned" or "optimized" with some kind of underlying assumption behind it, you're basically building a statistical model. Other financial models often have much stronger assumptions than Bateman's, such as a normal distribution of returns or [mean reversion](http://en.wikipedia.org/wiki/Mean_reversion_(finance)).
 
 Bateman is intended to have good "generalization" and future performance by being limited in its assumptions. Bateman's assumption is that some stocks go up a little sometimes. A plot of a "Bateman model" consists of a couple of horizontal lines, nothing more.
 
